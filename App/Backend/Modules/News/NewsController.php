@@ -110,4 +110,13 @@ class NewsController extends BackController
 			$this->page->addVar('comment', $this->managers->getManagerOf('Comments')->get($request->getData('id')));
 		}
 	}
+	
+	public function executeDeleteComment(HTTPRequest $request)
+	{
+		$this->managers->getManagerOf('Comments')->delete($request->getData('id'));
+		
+		$this->app->user()->setFlash('Le commentaire a bien été supprimé !');
+		
+		$this->app->httpResponse()->redirect('.');
+	}
 }
