@@ -94,9 +94,9 @@ class NewsController extends BackController
 		
 		$form = $formBuilder->form();
 		
-		if ($request->method() == 'POST' && $form->isValid())
+		$formHandler = new \OCFram\FormHandler($form, $this->managers->getManagerOf('Comments'), $request);
+		if ($formHandler->process())
 		{
-			$this->managers->getManagerOf('Comments')->save($comment);
 			$this->app->user()->setFlash('Le commentaire a bien été modifié');
 			$this->app->httpResponse()->redirect('/admin/');
 		}
@@ -145,10 +145,10 @@ class NewsController extends BackController
 		$formBuilder->build();
 		
 		$form = $formBuilder->form();
+		$formHandler = new \OCFram\FormHandler($form, $this->managers->getManagerOf('News'), $request);
 		
-		if ($request->method() == 'POST' && $form->isValid())
+		if ($formHandler->process())
 		{
-			$this->managers->getManagerOf('News')->save($news);
 			$this->app->user()->setFlash($news->isNew() ? 'La news a bien été ajoutée !' : 'La news a bien été modifiée !');
 			$this->app->httpResponse()->redirect('/admin/');
 		}
