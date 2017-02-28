@@ -6,6 +6,7 @@ use \OCFram\HTTPRequest;
 use \Entity\Comment;
 
 class NewsController extends BackController {
+	
 	public function executeIndex( HTTPRequest $request ) {
 		$nombreNews       = $this->app->config()->get( 'nombre_news' );
 		$nombreCaracteres = $this->app->config()->get( 'nombre_caracteres' );
