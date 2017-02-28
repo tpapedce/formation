@@ -4,9 +4,8 @@ namespace App\Frontend\Modules\News;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \Entity\Comment;
-use \OCFram\Form;
-use \OCFram\StringField;
-use \OCFram\TextField;
+use \FormBuilder\CommentFormBuilder;
+use \OCFram\FormHandler;
 
 class NewsController extends BackController {
 	
@@ -49,7 +48,7 @@ class NewsController extends BackController {
 	
 	public function executeInsertComment(HTTPRequest $request)
 	{
-		// Si le formulaire a été envoyé, on crée le commentaire avec les valeurs du formulaire.
+		// Si le formulaire a été envoyé.
 		if ($request->method() == 'POST')
 		{
 			$comment = new Comment([
@@ -63,27 +62,20 @@ class NewsController extends BackController {
 			$comment = new Comment;
 		}
 		
-		$form = new Form($comment);
+		$formBuilder = new CommentFormBuilder($comment);
+		$formBuilder->build();
 		
-		$form->add(new StringField([
-			'label' => 'Auteur',
-			'name' => 'auteur',
-			'maxLength' => 50,
-		]))
-			 ->add(new TextField([
-				 'label' => 'Contenu',
-				 'name' => 'contenu',
-				 'rows' => 7,
-				 'cols' => 50,
-			 ]));
+		$form = $formBuilder->form();
 		
-		if ($form->isValid())
+		if ($request->method() == 'POST' && $form->isValid())
 		{
-			// On enregistre le commentaire
+			$this->managers->getManagerOf('Comments')->save($comment);
+			$this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !');
+			$this->app->httpResponse()->redirect('news-'.$request->getData('news').'.html');
 		}
 		
 		$this->page->addVar('comment', $comment);
-		$this->page->addVar('form', $form->createView()); // On passe le formulaire généré à la vue.
+		$this->page->addVar('form', $form->createView());
 		$this->page->addVar('title', 'Ajout d\'un commentaire');
 	}
 	
