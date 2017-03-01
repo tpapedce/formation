@@ -3,7 +3,7 @@ namespace Entity;
 
 use \OCFram\Entity;
 
-class Comment extends Entity
+class Member extends Entity
 {
 	protected $user,
 		$password,

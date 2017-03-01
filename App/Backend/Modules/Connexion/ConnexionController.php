@@ -8,7 +8,7 @@ class ConnexionController extends BackController
 {
 	public function executeIndex(HTTPRequest $request)
 	{
-		$this->page->addVar('title', 'Connexion');
+		$this->page->addVar('title', 'Inscription');
 		
 		if ($request->postExists('login'))
 		{
