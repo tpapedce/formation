@@ -29,6 +29,7 @@ class ConnexionController extends BackController
 	
 	public function executeLogout()
 	{
+		session_unset();
 		session_destroy();
 		$this->app->httpResponse()->redirect('/');
 	}
