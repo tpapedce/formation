@@ -127,4 +127,5 @@ class NewsController extends BackController
 		
 		$this->page->addVar('form', $form->createView());
 	}
+	
 }
