@@ -33,4 +33,6 @@ class ConnexionController extends BackController
 		session_destroy();
 		$this->app->httpResponse()->redirect('/');
 	}
+	
+	
 }
