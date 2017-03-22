@@ -1,6 +1,7 @@
 <?php
 namespace App\Frontend\Modules\Inscription;
 
+use App\Backend\Modules\Connexion\ConnexionController;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \Entity\Member;
@@ -11,35 +12,20 @@ class InscriptionController extends BackController
 {
 	public function executeInscription(HTTPRequest $request)
 	{
-		$this->page->addVar('title', 'Inscription');
-		
-		echo 'oui';
-	}
-	
-	public function processForm(HTTPRequest $request)
-	{
 		if ($request->method() == 'POST')
 		{
 			$member = new Member([
-				'MMC_user' => $request->postData('username'),
-				'MMC_password' => $request->postData('password'),
-				'MMC_email' => $request->postData('email')
+				'user' => $request->postData('user'),
+				'password' => $request->postData('password'),
+				'email' => $request->postData('email')
 			]);
 		}
 		else
 		{
-			// L'identifiant de la news est transmis si on veut la modifier
-			if ($request->getExists('MMC_id'))
-			{
-				$member = $this->managers->getManagerOf('Inscription')->getUnique($request->getData('MMC_id'));
-			}
-			else
-			{
-				$member = new Member;
-			}
+			$member = new Member;
 		}
 		
-		$formBuilder = new NewsFormBuilder($member);
+		$formBuilder = new MemberFormBuilder($member, $this);
 		$formBuilder->build();
 		
 		$form = $formBuilder->form();
@@ -47,11 +33,14 @@ class InscriptionController extends BackController
 		
 		if ($formHandler->process())
 		{
-			$this->app->user()->setFlash($member->isNew() ? 'Le membre a bien été ajouté !' : 'Le membre a bien été modifié !');
+			$this->app->user()->setFlash('Le membre a bien été ajouté !');
+			ConnexionController::initMemberSession($this->app,$member);
+			
 			$this->app->httpResponse()->redirect('/admin/');
 		}
 		
 		$this->page->addVar('form', $form->createView());
+		$this->page->addVar('title', 'Inscription');
 	}
 
 }

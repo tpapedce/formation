@@ -2,7 +2,7 @@
 namespace Model;
 
 use \OCFram\Manager;
-use \Entity\Comment;
+use \Entity\Member;
 
 abstract class MemberManager extends Manager
 {
@@ -13,7 +13,7 @@ abstract class MemberManager extends Manager
 	{
 		if ($member->isValid())
 		{
-			$membert->isNew() ? $this->add($member) : $this->modify($member);
+			$member->isNew() ? $this->add($member) : $this->modify($member);
 		}
 		else
 		{
@@ -26,5 +26,11 @@ abstract class MemberManager extends Manager
 	abstract public function get($id);
 	
 	abstract public function delete($id);
+	
+	abstract public function existMemberUsingPseudo($pseudo);
+	
+	abstract public function getMemberUsingLogin($login);
+	
+	abstract public function existMemberUsingEmail($login);
 	
 }

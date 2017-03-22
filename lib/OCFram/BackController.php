@@ -38,6 +38,14 @@ abstract class BackController extends ApplicationComponent
 		return $this->page;
 	}
 	
+	/**
+	 * Retourne la gestionnaire de manager
+	 * @return null|Managers
+	 */
+	public function Managers() {
+		return $this->managers;
+	}
+	
 	public function setModule($module)
 	{
 		if (!is_string($module) || empty($module))

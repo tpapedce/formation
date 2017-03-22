@@ -5,6 +5,7 @@ class StringField extends Field
 {
 	protected $maxLength;
 	
+	
 	public function buildWidget()
 	{
 		$widget = '';

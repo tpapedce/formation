@@ -5,7 +5,8 @@ use \OCFram\Entity;
 
 class Comment extends Entity
 {
-	protected $news,
+	protected $id,
+		$news,
 		$auteur,
 		$contenu,
 		$date;
@@ -46,6 +47,11 @@ class Comment extends Entity
 	public function setDate(\DateTime $date)
 	{
 		$this->date = $date;
+	}
+	
+	public function id()
+	{
+		return $this->id;
 	}
 	
 	public function news()

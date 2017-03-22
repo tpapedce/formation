@@ -1,6 +1,8 @@
 <?php
 namespace OCFram;
 
+use \Entity\Member;
+
 session_start();
 
 class User

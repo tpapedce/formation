@@ -1,6 +1,7 @@
 <?php
 namespace App\Backend\Modules\News;
 
+use Entity\Member;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \Entity\Comment;
@@ -89,8 +90,10 @@ class NewsController extends BackController
 	{
 		if ($request->method() == 'POST')
 		{
+			/** @var Member $Member */
+			$Member = $this->app->user()->getAttribute('Member');
 			$news = new News([
-				'auteur' => $request->postData('auteur'),
+				'auteur' => $Member->id(),
 				'titre' => $request->postData('titre'),
 				'contenu' => $request->postData('contenu')
 			]);

@@ -5,7 +5,8 @@ use \OCFram\Entity;
 
 class News extends Entity
 {
-	protected $auteur,
+	protected $id,
+		$auteur,
 		$titre,
 		$contenu,
 		$dateAjout,
@@ -64,6 +65,11 @@ class News extends Entity
 	}
 	
 	// GETTERS //
+	
+	public function id()
+	{
+		return $this->id;
+	}
 	
 	public function auteur()
 	{

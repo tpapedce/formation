@@ -5,16 +5,19 @@ use \OCFram\Entity;
 
 class Member extends Entity
 {
-	protected $user,
+	protected $id,
+		$user,
 		$password,
-		$dateInscription;
+		$dateInscription,
+		$email;
 	
 	const USER_INVALIDE = 1;
 	const PASSWORD_INVALIDE = 2;
+	const EMAIL_INVALIDE = 3;
 	
 	public function isValid()
 	{
-		return !(empty($this->user) || empty($this->password));
+		return !(empty($this->user) || empty($this->password) || empty($this->email));
 	}
 	
 	public function setUser($user)
@@ -42,6 +45,21 @@ class Member extends Entity
 		$this->dateInscription = $dateInscription;
 	}
 	
+	public function setEmail($email)
+	{
+		if (!is_string($email) || empty($email))
+		{
+			$this->erreurs[] = self::EMAIL_INVALIDE;
+		}
+		
+		$this->email = $email;
+	}
+	
+	public function id()
+	{
+		return $this->id;
+	}
+	
 	public function user()
 	{
 		return $this->user;
@@ -55,6 +73,10 @@ class Member extends Entity
 	public function dateInscription()
 	{
 		return $this->dateInscription;
+	}
+	public function email()
+	{
+		return $this->email;
 	}
 	
 }
