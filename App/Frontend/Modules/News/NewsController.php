@@ -1,6 +1,7 @@
 <?php
 namespace App\Frontend\Modules\News;
 
+use Entity\Member;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \Entity\Comment;
@@ -51,18 +52,30 @@ class NewsController extends BackController {
 		// Si le formulaire a été envoyé.
 		if ($request->method() == 'POST')
 		{
-			$comment = new Comment([
-				'news' => $request->getData('news'),
-				'auteur' => $request->postData('auteur'),
-				'contenu' => $request->postData('contenu')
-			]);
+			/** @var Member|null $member */
+			$member = $this->app->user()->getAttribute('Member');
+			if (null === $member){
+				$comment = new Comment([
+					'news' => $request->getData('news'),
+					'auteur' => $request->postData('auteur'),
+					'contenu' => $request->postData('contenu')
+				]);
+			}
+			else{
+				$comment = new Comment([
+					'news' => $request->getData('news'),
+					'auteur' => $member->id(),
+					'contenu' => $request->postData('contenu')
+				]);
+			}
+			
 		}
 		else
 		{
 			$comment = new Comment;
 		}
 		
-		$formBuilder = new CommentFormBuilder($comment);
+		$formBuilder = new CommentFormBuilder($comment, $this->app->user()->getAttribute('Member'));
 		$formBuilder->build();
 		
 		$form = $formBuilder->form();
