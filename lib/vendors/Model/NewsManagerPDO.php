@@ -81,4 +81,14 @@ class NewsManagerPDO extends NewsManager
 	{
 		$this->dao->exec('DELETE FROM news WHERE id = '.(int) $id);
 	}
+	
+	public function getMemberUsingId($id){
+		$q = $this->dao->prepare('SELECT M.MMC_id AS id, M.MMC_user AS user, M.MMC_password AS password, M.MMC_email AS email, M.MMC_dateinscription AS dateinscription, M.MMC_fk_MMY FROM T_MEM_MEMBERC AS M INNER JOIN news AS N ON N.auteur = M.MMC_id WHERE N.id = :id');
+		$q->bindValue(':id', $id);
+		$q->execute();
+		
+		$q->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member');
+		
+		return $q->fetch();
+	}
 }

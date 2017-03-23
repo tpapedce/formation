@@ -14,37 +14,30 @@
 		<div id="wrap">
 			<header>
 				<h1><a href="/">Mon super site</a></h1>
-				<?php if ($user->isAuthenticated()) {
-				/** @var Member|null $member */
-				$member = $user->getAttribute('Member');
-				?>
-					<p>Content de vous revoir <?php print($member->user())?>!
-				<?php
-				if (2 == $member->status()) {?>
-					Vous disposez des droits administrateur.
-				<?php }}
-				else { ?>
-				<p>Bienvenue ! <a class="colorFuchsia" href="/admin/">Connectez vous</a> ou <a class="colorFuchsia" href="/inscription.html">créez un compte</a> gratuitement !
-				<?php } ?>
+				<?php if ($user->isAuthenticated()) : ?>
+					<p>Content de vous revoir <?=$user->getAttribute('Member')['user']?>!
+					<?php if (2 == $user->getAttribute('Member')['status']) : ?>
+						Vous disposez des droits administrateur.
+					<?php endif; ?>
+				<?php else : ?>
+					<p>Bienvenue ! <a class="colorFuchsia" href="/admin/">Connectez vous</a> ou <a class="colorFuchsia" href="/inscription.html">créez un compte</a> gratuitement !
+				<?php endif; ?>
 				</p>
 			</header>
 			
 			<nav>
 				<ul>
 					<li><a href="/">Accueil</a></li>
-					<?php if ($user->isAuthenticated()) {
-						/** @var Member|null $member */
-						$member = $user->getAttribute('Member');
-						if (2 == $member->status()){?>
-					<li><a href="/admin/">Admin</a></li>
-					<?php } ?>
+					<?php if ($user->isAuthenticated()) : ?>
+						<?php if (2 == $user->getAttribute('Member')['status']) : ?>
+							<li><a href="/admin/">Admin</a></li>
+						<?php endif; ?>
 						<li><a href="/admin/news-insert.html">Ajouter une news</a></li>
 						<li><a href="/admin/logout.php">Se deconnecter</a></li>
-					<?php } ?>
-					<?php if (!$user->isAuthenticated()) { ?>
+					<?php else : ?>
 					<li><a href="/inscription.html">Inscription</a></li>
 						<li><a href="/admin/">Connexion</a></li>
-					<?php } ?>
+					<?php endif; ?>
 				</ul>
 			</nav>
 			
