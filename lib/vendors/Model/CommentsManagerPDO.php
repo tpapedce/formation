@@ -25,7 +25,7 @@ class CommentsManagerPDO extends CommentsManager
 			throw new \InvalidArgumentException('L\'identifiant de la news passé doit être un nombre entier valide');
 		}
 		
-		$q = $this->dao->prepare('SELECT C.id AS id, C.news AS news, M.MMC_user AS auteur, C.contenu AS contenu, date FROM comments AS C LEFT OUTER JOIN T_MEM_MEMBERC AS M ON C.auteur = M.MMC_id  WHERE news = :news');
+		$q = $this->dao->prepare('SELECT C.id AS id, C.news AS news, COALESCE(M.MMC_user, C.auteur) AS auteur, C.contenu AS contenu, date FROM comments AS C LEFT OUTER JOIN T_MEM_MEMBERC AS M ON C.auteur = M.MMC_id  WHERE news = :news');
 		$q->bindValue(':news', $news, \PDO::PARAM_INT);
 		$q->execute();
 		
@@ -43,9 +43,8 @@ class CommentsManagerPDO extends CommentsManager
 	
 	protected function modify(Comment $comment)
 	{
-		$q = $this->dao->prepare('UPDATE comments SET auteur = :auteur, contenu = :contenu WHERE id = :id');
+		$q = $this->dao->prepare('UPDATE comments SET contenu = :contenu WHERE id = :id');
 		
-		$q->bindValue(':auteur', $comment->auteur());
 		$q->bindValue(':contenu', $comment->contenu());
 		$q->bindValue(':id', $comment->id(), \PDO::PARAM_INT);
 		

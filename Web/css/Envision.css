@@ -33,6 +33,10 @@ a:hover {
 	text-decoration: underline;
 }
 
+a.colorFuchsia {
+	color: #F9429E;
+	}
+
 /* headers */
 h1, h2, h3 {
 	font-family: 'Trebuchet MS', Tahoma, Sans-serif;	 		

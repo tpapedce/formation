@@ -17,7 +17,8 @@ class InscriptionController extends BackController
 			$member = new Member([
 				'user' => $request->postData('user'),
 				'password' => $request->postData('password'),
-				'email' => $request->postData('email')
+				'email' => $request->postData('email'),
+				'status' => 1
 			]);
 		}
 		else
@@ -36,7 +37,7 @@ class InscriptionController extends BackController
 			$this->app->user()->setFlash('Le membre a bien été ajouté !');
 			ConnexionController::initMemberSession($this->app,$member);
 			
-			$this->app->httpResponse()->redirect('/admin/');
+			$this->app->httpResponse()->redirect('.');
 		}
 		
 		$this->page->addVar('form', $form->createView());

@@ -9,15 +9,17 @@ class Member extends Entity
 		$user,
 		$password,
 		$dateInscription,
-		$email;
+		$email,
+		$status;
 	
 	const USER_INVALIDE = 1;
 	const PASSWORD_INVALIDE = 2;
 	const EMAIL_INVALIDE = 3;
+	const STATUS_INVALIDE = 4;
 	
 	public function isValid()
 	{
-		return !(empty($this->user) || empty($this->password) || empty($this->email));
+		return !(empty($this->user) || empty($this->password) || empty($this->email) || empty($this->status));
 	}
 	
 	public function setUser($user)
@@ -55,6 +57,16 @@ class Member extends Entity
 		$this->email = $email;
 	}
 	
+	public function setStatus($status)
+	{
+		if (!is_int($status) || empty($status))
+		{
+			$this->erreurs[] = self::STATUS_INVALIDE;
+		}
+		
+		$this->status = $status;
+	}
+	
 	public function id()
 	{
 		return $this->id;
@@ -74,9 +86,16 @@ class Member extends Entity
 	{
 		return $this->dateInscription;
 	}
+	
 	public function email()
 	{
 		return $this->email;
 	}
+	
+	public function status()
+	{
+		return $this->status;
+	}
+	
 	
 }

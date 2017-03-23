@@ -20,7 +20,6 @@ class ConnexionController extends BackController
 			$member_manager = $this->managers->getManagerOf('Member');
 			$member = $member_manager->getMemberUsingLogin($login);
 			
-			// si le membre existe (le user a été trouvé)
 			if (!$member) {
 				$this->app->user()->setFlash( 'Le pseudo n\'existe pas.' );
 				
@@ -41,7 +40,13 @@ class ConnexionController extends BackController
 			
 			self::initMemberSession($this->app,$member);
 			
-			$this->app->httpResponse()->redirect('.');
+			if(2 == $member->status()) {
+				$this->app->httpResponse()->redirect('.');
+			}
+			
+			if(1 == $member->status()) {
+				$this->app->httpResponse()->redirect('/');
+			}
 		}
 	}
 	

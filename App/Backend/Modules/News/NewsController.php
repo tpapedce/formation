@@ -14,12 +14,21 @@ class NewsController extends BackController
 {
 	public function executeIndex(HTTPRequest $request)
 	{
-		$this->page->addVar('title', 'Gestion des news');
+		/** @var Member $Member */
+		$member = $this->app->user()->getAttribute('Member');
+		if(1 == $member->status()) {
+			$this->app->user()->setFlash('Vous n\'avez pas les droits !');
+			$this->app->httpResponse()->redirect404();
+		}
+		elseif (2 == $member->status()) {
+			$this->page->addVar('title', 'Gestion des news');
+			
+			$manager = $this->managers->getManagerOf('News');
+			
+			$this->page->addVar('listeNews', $manager->getList());
+			$this->page->addVar('nombreNews', $manager->count());
+		}
 		
-		$manager = $this->managers->getManagerOf('News');
-		
-		$this->page->addVar('listeNews', $manager->getList());
-		$this->page->addVar('nombreNews', $manager->count());
 	}
 	
 	public function executeInsert(HTTPRequest $request)

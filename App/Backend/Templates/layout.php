@@ -14,14 +14,27 @@
 		<div id="wrap">
 			<header>
 				<h1><a href="/">Mon super site</a></h1>
-				<p>Comment ça, il n'y a presque rien ?</p>
+				<?php if ($user->isAuthenticated()) {
+					/** @var Member|null $member */
+					$member = $user->getAttribute('Member');
+					?>
+					<p>Content de vous revoir <?php print($member->user())?>!
+				<?php
+				if (2 == $member->status()) {?>
+						Vous disposez des droits administrateur.
+				<?php }} ?>
+					</p>
 			</header>
 			
 			<nav>
 				<ul>
 					<li><a href="/">Accueil</a></li>
-					<?php if ($user->isAuthenticated()) { ?>
+					<?php if ($user->isAuthenticated()) {
+						/** @var Member|null $member */
+						$member = $user->getAttribute('Member');
+						if (2 === $member->status()){?>
 						<li><a href="/admin/">Admin</a></li>
+						<?php } ?>
 						<li><a href="/admin/news-insert.html">Ajouter une news</a></li>
 						<li><a href="/admin/logout.php">Se deconnecter</a></li>
 					<?php } ?>

@@ -48,7 +48,7 @@ class NewsManagerPDO extends NewsManager
 	
 	public function getUnique($id)
 	{
-		$requete = $this->dao->prepare('SELECT id, auteur, titre, contenu, dateAjout, dateModif FROM news WHERE id = :id');
+		$requete = $this->dao->prepare('SELECT N.id AS id, M.MMC_user AS auteur, N.titre AS titre, N.contenu AS contenu, N.dateAjout AS dateAjout, N.dateModif AS dateModif FROM news AS N INNER JOIN T_MEM_MEMBERC AS M ON N.auteur = M.MMC_id WHERE id = :id');
 		$requete->bindValue(':id', (int) $id, \PDO::PARAM_INT);
 		$requete->execute();
 		

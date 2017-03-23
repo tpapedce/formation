@@ -14,7 +14,7 @@ class MemberManagerPDO extends MemberManager
 	protected function add(Member $member)
 	{
 		
-			$q = $this->dao->prepare('INSERT INTO t_mem_memberc SET MMC_user = :user, MMC_password = :password, MMC_email = :email, MMC_dateinscription = NOW()');
+			$q = $this->dao->prepare('INSERT INTO t_mem_memberc SET MMC_user = :user, MMC_password = :password, MMC_email = :email, MMC_dateinscription = NOW(), MMC_fk_MMY = 1');
 			
 			$q->bindValue(':user', $member->user());
 			$q->bindValue(':password', $member->password());
@@ -39,7 +39,7 @@ class MemberManagerPDO extends MemberManager
 	
 	public function get($id)
 	{
-		$q = $this->dao->prepare('SELECT MMC_id AS id, MMC_user AS user, MMC_password AS password, MMC_email AS email, MMC_dateinscription AS dateinscription FROM t_mem_memberc WHERE MMC_id = :id');
+		$q = $this->dao->prepare('SELECT MMC_id AS id, MMC_user AS user, MMC_password AS password, MMC_email AS email, MMC_dateinscription AS dateinscription, MMC_fk_MMY AS status FROM t_mem_memberc WHERE MMC_id = :id');
 		$q->bindValue(':id', (int) $id, \PDO::PARAM_INT);
 		$q->execute();
 		
@@ -71,7 +71,7 @@ class MemberManagerPDO extends MemberManager
 	
 	public function getMemberUsingLogin($login)
 	{
-		$q = $this->dao->prepare('SELECT MMC_id AS id, MMC_user AS user, MMC_password AS password, MMC_email AS email, MMC_dateinscription AS dateinscription FROM t_mem_memberc WHERE MMC_user = :login');
+		$q = $this->dao->prepare('SELECT MMC_id AS id, MMC_user AS user, MMC_password AS password, MMC_email AS email, MMC_dateinscription AS dateinscription, MMC_fk_MMY AS status FROM t_mem_memberc WHERE MMC_user = :login');
 		$q->bindValue(':login', $login);
 		$q->execute();
 		
