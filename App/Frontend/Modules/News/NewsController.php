@@ -102,6 +102,6 @@ class NewsController extends BackController {
 		
 		$this->app->user()->setFlash('La news a bien été supprimée !');
 		
-		$this->app->httpResponse()->redirect('.');
+		$this->app->httpResponse()->redirect('/');
 	}
 }

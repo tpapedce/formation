@@ -51,7 +51,7 @@ class NewsController extends BackController
 		
 		$this->app->user()->setFlash('La news a bien été supprimée !');
 		
-		$this->app->httpResponse()->redirect('.');
+		$this->app->httpResponse()->redirect('/');
 	}
 	
 	public function executeUpdateComment(HTTPRequest $request)
@@ -80,7 +80,7 @@ class NewsController extends BackController
 		if ($formHandler->process())
 		{
 			$this->app->user()->setFlash('Le commentaire a bien été modifié');
-			$this->app->httpResponse()->redirect('/admin/');
+			$this->app->httpResponse()->redirect('/');
 		}
 		
 		$this->page->addVar('form', $form->createView());
@@ -92,7 +92,7 @@ class NewsController extends BackController
 		
 		$this->app->user()->setFlash('Le commentaire a bien été supprimé !');
 		
-		$this->app->httpResponse()->redirect('.');
+		$this->app->httpResponse()->redirect('/');
 	}
 	
 	public function processForm(HTTPRequest $request)
@@ -134,7 +134,7 @@ class NewsController extends BackController
 		if ($formHandler->process())
 		{
 			$this->app->user()->setFlash($news->isNew() ? 'La news a bien été ajoutée !' : 'La news a bien été modifiée !');
-			$this->app->httpResponse()->redirect('/admin/');
+			$this->app->httpResponse()->redirect('/');
 		}
 		
 		$this->page->addVar('form', $form->createView());
