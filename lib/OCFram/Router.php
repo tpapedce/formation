@@ -49,4 +49,31 @@ class Router
 		
 		throw new \RuntimeException('Aucune route ne correspond à l\'URL', self::NO_ROUTE);
 	}
+	
+	/*public function getRouteUrl( $module, $action ) {
+		$router = new Router;
+		
+		$xml = new \DOMDocument;
+		$xml->load( __DIR__ . '/../../App/' . $this->name . '/Config/routes.xml' );
+		
+		$routes = $xml->getElementsByTagName( 'route' );
+		
+		// On parcourt les routes du fichier XML.
+		foreach ( $routes as $route ) {
+			$vars = [];
+			
+			// On regarde si des variables sont présentes dans l'URL.
+			if ( $route->hasAttribute( 'vars' ) ) {
+				$vars = explode( ',', $route->getAttribute( 'vars' ) );
+			}
+			
+			if ( ( $module === $route->getAttribute( 'module' ) ) && ( $action === $route->getAttribute( 'action' ) ) ) {
+				// On ajoute la route au routeur.
+				$router->addRoute( new Route( $route->getAttribute( 'url' ), $route->getAttribute( 'module' ), $route->getAttribute( 'action' ), $vars ) );
+				
+				return $route->getAttribute( 'url' );
+			}
+		}
+	}*/
+	
 }
