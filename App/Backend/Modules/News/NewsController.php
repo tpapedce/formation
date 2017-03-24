@@ -224,7 +224,7 @@ class NewsController extends BackController {
 			}
 		}
 		
-		$formBuilder = new MemberFormBuilder( $member, $this );
+		$formBuilder = new MemberFormBuilder( $member, $this, $this->app->user()->getAttribute( 'Member' ) );
 		$formBuilder->build();
 		
 		$form        = $formBuilder->form();
