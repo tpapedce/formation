@@ -79,8 +79,13 @@ class NewsManagerPDO extends NewsManager
 	
 	public function delete($id)
 	{
-		$this->dao->exec('DELETE FROM comments WHERE news = '.(int) $id);
-		$this->dao->exec('DELETE FROM news WHERE id = '.(int) $id);
+		$q = $this->dao->prepare('DELETE FROM comments WHERE news = :id');
+		$q->bindValue(':id', (int) $id, \PDO::PARAM_INT);
+		$q->execute();
+		
+		$q = $this->dao->prepare('DELETE FROM news WHERE id = :id');
+		$q->bindValue(':id', (int) $id, \PDO::PARAM_INT);
+		$q->execute();
 	}
 	
 	public function getMemberUsingId($id){

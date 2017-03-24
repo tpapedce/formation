@@ -60,9 +60,17 @@ class MemberManagerPDO extends MemberManager {
 	}
 	
 	public function delete( $id ) {
-		$this->dao->exec( 'DELETE C.* FROM comments AS C INNER JOIN news AS N ON C.news = N.id WHERE C.auteur = ' . (int)$id . ' OR N.auteur = ' . (int)$id );
-		$this->dao->exec( 'DELETE FROM news WHERE auteur = ' . (int)$id );
-		$this->dao->exec( 'DELETE FROM t_mem_memberc WHERE MMC_id = ' . (int)$id );
+		$q = $this->dao->prepare( 'DELETE C.* FROM comments AS C INNER JOIN news AS N ON C.news = N.id WHERE C.auteur = :id OR N.auteur = :id' );
+		$q->bindValue( ':id', (int)$id, \PDO::PARAM_INT );
+		$q->execute();
+		
+		$q = $this->dao->prepare( 'DELETE FROM news WHERE auteur = :id' );
+		$q->bindValue( ':id', (int)$id, \PDO::PARAM_INT );
+		$q->execute();
+		
+		$q = $this->dao->prepare( 'DELETE FROM t_mem_memberc WHERE MMC_id = :id' );
+		$q->bindValue( ':id', (int)$id, \PDO::PARAM_INT );
+		$q->execute();
 	}
 	
 	public function getList( $debut = -1, $limite = -1 ) {

@@ -42,6 +42,11 @@ a.colorFuchsia {
 	color : #f9429e;
 	}
 
+p.comment {
+	width: 510px;
+	word-wrap: break-word;
+	}
+
 /* headers */
 h1, h2, h3 {
 	font-family : 'Trebuchet MS', Tahoma, Sans-serif;

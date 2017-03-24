@@ -42,7 +42,7 @@ class NewsController extends BackController {
 			$this->app->httpResponse()->redirect404();
 		}
 		
-		$this->page->addVar( 'title', $news->titre() );
+		$this->page->addVar( 'title', htmlspecialchars ($news->titre()) );
 		$this->page->addVar( 'news', $news );
 		$this->page->addVar( 'comments', $this->managers->getManagerOf( 'Comments' )->getListOf( $news->id() ) );
 	}
@@ -56,7 +56,7 @@ class NewsController extends BackController {
 			$member = $this->app->user()->getAttribute('Member');
 			if (null === $member){
 				$comment = new Comment([
-					'news' => $request->getData('news'),
+					'news' => ($request->getData('news')),
 					'auteur' => $request->postData('auteur'),
 					'contenu' => $request->postData('contenu')
 				]);
@@ -93,7 +93,7 @@ class NewsController extends BackController {
 		$this->page->addVar('title', 'Ajout d\'un commentaire');
 	}
 	
-	public function executeDelete(HTTPRequest $request)
+	public function executeDelete( HTTPRequest $request )
 	{
 		$newsId = $request->getData('id');
 		

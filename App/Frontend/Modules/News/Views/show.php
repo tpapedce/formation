@@ -1,12 +1,12 @@
 <p>Par <em><?= $news[ 'auteur' ] ?></em>, le <?= $news[ 'dateAjout' ]->format( 'd/m/Y à H\hi' ) ?></p>
-<h2><?= $news[ 'titre' ] ?></h2>
+<h2><?= htmlspecialchars( $news[ 'titre' ] ) ?></h2>
 
-<p><?= nl2br( $news[ 'contenu' ] ) ?></p>
+<p><?= htmlspecialchars( nl2br( $news[ 'contenu' ] ) ) ?></p>
 
 <?php
 /** @var Member|null $member */
 $member = $user->getAttribute( 'Member' );
-if ( $user->isAuthenticated() && ((2 == $member->status()) || ((1 == $member->status()) && ($member->user() === $news[ 'auteur' ])) )) { ?>
+if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $member->status() ) && ( $member->user() === $news[ 'auteur' ] ) ) ) ) { ?>
 	<a href="admin/news-update-<?= $news[ 'id' ] ?>.html">Modifier</a> |
 	<a href="admin/news-delete-<?= $news[ 'id' ] ?>.html">Supprimer</a>
 <?php } ?>
@@ -34,13 +34,13 @@ foreach ( $comments as $comment ) {
 			<?php
 			/** @var Member|null $member */
 			$member = $user->getAttribute( 'Member' );
-			if ( $user->isAuthenticated() && ((2 == $member->status()) || ((1 == $member->status()) && ($member->user() === $comment[ 'auteur' ])) )) { ?> -
+			if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $member->status() ) && ( $member->user() === $comment[ 'auteur' ] ) ) ) ) { ?> -
 				<a href="admin/comment-update-<?= $comment[ 'id' ] ?>.html">Modifier</a> |
 				<a href="admin/comment-delete-<?= $comment[ 'id' ] ?>.html">Supprimer</a>
 			<?php } ?>
 		</legend>
-		<p><?= nl2br( htmlspecialchars( $comment[ 'contenu' ] ) ) ?></p>
+		<p class="comment"><?= htmlspecialchars( nl2br( $comment[ 'contenu' ] ) ) ?></p>
 	</fieldset>
-	<?php } ?>
+<?php } ?>
 
 <p><a href="commenter-<?= $news[ 'id' ] ?>.html">Ajouter un commentaire</a></p>

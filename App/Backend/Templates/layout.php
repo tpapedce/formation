@@ -18,7 +18,7 @@
 					/** @var Member|null $member */
 					$member = $user->getAttribute('Member');
 					?>
-					<p>Content de vous revoir <?php print($member->user())?>!
+					<p>Content de vous revoir <?php htmlspecialchars ($member->user())?>!
 				<?php
 				if (2 == $member->status()) {?>
 						Vous disposez des droits administrateur.
