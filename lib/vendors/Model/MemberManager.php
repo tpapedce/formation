@@ -33,4 +33,8 @@ abstract class MemberManager extends Manager
 	
 	abstract public function existMemberUsingEmail($login);
 	
+	abstract public function getList($debut = -1, $limite = -1);
+	
+	abstract public function count();
+	
 }

@@ -9,6 +9,7 @@ use \Entity\Comment;
 use \Entity\News;
 use \FormBuilder\CommentFormBuilder;
 use \FormBuilder\NewsFormBuilder;
+use \FormBuilder\MemberFormBuilder;
 use \OCFram\FormHandler;
 
 class NewsController extends BackController {
@@ -26,10 +27,14 @@ class NewsController extends BackController {
 		
 		$this->page->addVar( 'title', 'Gestion des news' );
 		
-		$manager = $this->managers->getManagerOf( 'News' );
+		$manager_news   = $this->managers->getManagerOf( 'News' );
+		$manager_member = $this->managers->getManagerOf( 'Member' );
 		
-		$this->page->addVar( 'listeNews', $manager->getList() );
-		$this->page->addVar( 'nombreNews', $manager->count() );
+		$this->page->addVar( 'listeMembre', $manager_member->getList() );
+		$this->page->addVar( 'nombreMembre', $manager_member->count() );
+		
+		$this->page->addVar( 'listeNews', $manager_news->getList() );
+		$this->page->addVar( 'nombreNews', $manager_news->count() );
 	}
 	
 	public function executeInsert( HTTPRequest $request ) {
@@ -74,6 +79,26 @@ class NewsController extends BackController {
 			$this->app->user()->setFlash( 'Vous n\'avez pas les droits !' );
 			$this->app->httpResponse()->redirect404();
 		}
+	}
+	
+	public function executeUpdateMember( HTTPRequest $request ) {
+		
+		$this->checkStatus( 2 );
+		
+		$this->processFormMember( $request );
+		
+		$this->page->addVar( 'title', 'Modification d\'un membre' );
+	}
+	
+	public function executeDeleteMember( HTTPRequest $request ) {
+		
+		$this->checkStatus( 2 );
+		
+		$this->managers->getManagerOf( 'Member' )->delete( $request->getData( 'id' ) );
+		
+		$this->app->user()->setFlash( 'Le membre a bien été supprimé !' );
+		
+		$this->app->httpResponse()->redirect( '/' );
 	}
 	
 	public function executeUpdateComment( HTTPRequest $request ) {
@@ -170,6 +195,43 @@ class NewsController extends BackController {
 		
 		if ( $formHandler->process() ) {
 			$this->app->user()->setFlash( $news->isNew() ? 'La news a bien été ajoutée !' : 'La news a bien été modifiée !' );
+			$this->app->httpResponse()->redirect( '/' );
+		}
+		
+		$this->page->addVar( 'form', $form->createView() );
+	}
+	
+	public function processFormMember( HTTPRequest $request ) {
+		if ( $request->method() == 'POST' ) {
+			$member = new Member( [
+				'user'     => $request->postData( 'user' ),
+				'password' => $request->postData( 'password' ),
+				'email'    => $request->postData( 'email' ),
+				'status'   => $request->postData( 'contenu' ),
+			] );
+			
+			if ( $request->getExists( 'id' ) ) {
+				$member->setId( $request->getData( 'id' ) );
+			}
+		}
+		else {
+			// L'identifiant du membre est transmis si on veut la modifier
+			if ( $request->getExists( 'id' ) ) {
+				$member = $this->managers->getManagerOf( 'Member' )->getUnique( $request->getData( 'id' ) );
+			}
+			else {
+				$member = new Member;
+			}
+		}
+		
+		$formBuilder = new MemberFormBuilder( $member, $this );
+		$formBuilder->build();
+		
+		$form        = $formBuilder->form();
+		$formHandler = new \OCFram\FormHandler( $form, $this->managers->getManagerOf( 'Member' ), $request );
+		
+		if ( $formHandler->process() ) {
+			$this->app->user()->setFlash( 'Le membre a bien été modifié' );
 			$this->app->httpResponse()->redirect( '/' );
 		}
 		

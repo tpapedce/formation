@@ -19,7 +19,7 @@ class Member extends Entity
 	
 	public function isValid()
 	{
-		return !(empty($this->user) || empty($this->password) || empty($this->email) || empty($this->status));
+		return !(empty($this->user) || empty($this->password) || empty($this->email) );
 	}
 	
 	public function setUser($user)
