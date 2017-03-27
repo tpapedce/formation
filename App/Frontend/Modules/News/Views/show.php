@@ -7,8 +7,8 @@
 /** @var Member|null $member */
 $member = $user->getAttribute( 'Member' );
 if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $member->status() ) && ( $member->user() === $news[ 'auteur' ] ) ) ) ) { ?>
-	<a href="admin/news-update-<?= $news[ 'id' ] ?>.html">Modifier</a> |
-	<a href="admin/news-delete-<?= $news[ 'id' ] ?>.html">Supprimer</a>
+	<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToUpdateNews($news) ?>">Modifier</a> |
+	<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToDeleteNews($news) ?>">Supprimer</a>
 <?php } ?>
 
 <?php if ( $news[ 'dateAjout' ] != $news[ 'dateModif' ] ) { ?>

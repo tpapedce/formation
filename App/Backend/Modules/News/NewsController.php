@@ -256,6 +256,26 @@ class NewsController extends BackController {
 		$vars = array("id" => $comment->id());
 		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'News', 'deleteComment', $vars );
 	}
+	
+	public static function getLinkToUpdateNews(News $news) {
+		$vars = array("id" => $news->id());
+		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'News', 'update', $vars );
+	}
+	
+	public static function getLinkToDeleteNews(News $news) {
+		$vars = array("id" => $news->id());
+		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'News', 'delete', $vars );
+	}
+	
+	public static function getLinkToUpdateMember(Member $member) {
+		$vars = array("id" => $member->id());
+		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'News', 'updateMember', $vars );
+	}
+	
+	public static function getLinkToDeleteMember(Member $member) {
+		$vars = array("id" => $member->id());
+		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'News', 'deleteMember', $vars );
+	}
 
 	
 }

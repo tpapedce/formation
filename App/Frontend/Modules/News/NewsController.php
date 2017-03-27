@@ -5,6 +5,7 @@ use Entity\Member;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \Entity\Comment;
+use \Entity\News;
 use \FormBuilder\CommentFormBuilder;
 use \OCFram\FormHandler;
 
@@ -107,5 +108,10 @@ class NewsController extends BackController {
 	
 	public static function getLinkToNewsIndex() {
 		return \OCFram\RouterFactory::getRouter( 'Frontend' )->getUrl( 'News', 'index');
+	}
+	
+	public static function getLinkToNewsShow(News $news) {
+		$vars = array("id" => $news->id());
+		return \OCFram\RouterFactory::getRouter( 'Frontend' )->getUrl( 'News', 'show', $vars);
 	}
 }
