@@ -20,23 +20,23 @@
 						Vous disposez des droits administrateur.
 					<?php endif; ?>
 					<?php else : ?>
-				<p>Bienvenue ! <a class="colorFuchsia" href="/admin/">Connectez vous</a> ou <a class="colorFuchsia" href="/inscription.html">créez un compte</a> gratuitement !
+				<p>Bienvenue ! <a class="colorFuchsia" href="<?= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?>">Connectez vous</a> ou <a class="colorFuchsia" href="<?= \App\Frontend\Modules\Inscription\InscriptionController::getLinkToInscription() ?>">créez un compte</a> gratuitement !
 					<?php endif; ?>
 				</p>
 			</header>
 			
 			<nav>
 				<ul>
-					<li><a href="/">Accueil</a></li>
+					<li><a href="<?= \App\Frontend\Modules\News\NewsController::getLinkToNewsIndex() ?>">Accueil</a></li>
 					<?php if ( $user->isAuthenticated() ) : ?>
 						<?php if ( 2 == $user->getAttribute( 'Member' )[ 'status' ] ) : ?>
-							<li><a href="/admin/">Admin</a></li>
+							<li><a href="<?= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?>">Admin</a></li>
 						<?php endif; ?>
-						<li><a href="/admin/news-insert.html">Ajouter une news</a></li>
-						<li><a href="/admin/logout.php">Se deconnecter</a></li>
+						<li><a href="<?= \App\Backend\Modules\News\NewsController::getLinkToInsertNews() ?>">Ajouter une news</a></li>
+						<li><a href="<?= \App\Backend\Modules\Connexion\ConnexionController::getLinkToLogout() ?>">Se deconnecter</a></li>
 					<?php else : ?>
-						<li><a href="/inscription.html">Inscription</a></li>
-						<li><a href="/admin/">Connexion</a></li>
+						<li><a href="<?= \App\Frontend\Modules\Inscription\InscriptionController::getLinkToInscription() ?>">Inscription</a></li>
+						<li><a href="<?= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?>">Connexion</a></li>
 					<?php endif; ?>
 				</ul>
 			</nav>

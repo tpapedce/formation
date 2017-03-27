@@ -35,8 +35,8 @@ foreach ( $comments as $comment ) {
 			/** @var Member|null $member */
 			$member = $user->getAttribute( 'Member' );
 			if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $member->status() ) && ( $member->user() === $comment[ 'auteur' ] ) ) ) ) { ?> -
-				<a href="admin/comment-update-<?= $comment[ 'id' ] ?>.html">Modifier</a> |
-				<a href="admin/comment-delete-<?= $comment[ 'id' ] ?>.html">Supprimer</a>
+				<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToUpdateComment($comment) ?>">Modifier</a> |
+				<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToDeleteComment($comment) ?>">Supprimer</a>
 			<?php } ?>
 		</legend>
 		<p class="comment"><?= htmlspecialchars( nl2br( $comment[ 'contenu' ] ) ) ?></p>

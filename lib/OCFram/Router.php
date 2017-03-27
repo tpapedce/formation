@@ -39,4 +39,21 @@ class Router {
 		
 		throw new \RuntimeException( 'Aucune route ne correspond à l\'URL', self::NO_ROUTE );
 	}
+	
+	public function getUrl( $module, $action, array $vars = [] ) {
+		foreach ( $this->routes as $route ) {
+			// Si la route correspond au module et à l'action
+			if ( ( $module == $route->module() ) && $action == $route->action() ) {
+				if ( $route->model() ) {
+					foreach ( $vars as $key => $value ) {
+						$url = str_replace( "[".$key."]", $value, $route->model() );
+						
+						return $url;
+					}
+				}
+				
+				return $route->url();
+			}
+		}
+	}
 }

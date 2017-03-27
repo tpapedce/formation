@@ -37,7 +37,7 @@ class RouterFactory {
 			}
 			
 			// On ajoute la route au routeur.
-			$router->addRoute( new Route( $route->getAttribute( 'url' ), $route->getAttribute( 'module' ), $route->getAttribute( 'action' ), $vars ) );
+			$router->addRoute( new Route( $route->getAttribute( 'url' ), $route->getAttribute( 'module' ), $route->getAttribute( 'action' ), $vars, $route->getAttribute( 'model' ) ) );
 		}
 		
 		self::$Router_a[ $application_name ] = $router;

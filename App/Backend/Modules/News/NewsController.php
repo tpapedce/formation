@@ -11,6 +11,7 @@ use \FormBuilder\CommentFormBuilder;
 use \FormBuilder\NewsFormBuilder;
 use \FormBuilder\MemberFormBuilder;
 use \OCFram\FormHandler;
+use OCFram\RouterFactory;
 
 class NewsController extends BackController {
 	protected function checkStatus( $minimal_status_number ) {
@@ -237,4 +238,24 @@ class NewsController extends BackController {
 		
 		$this->page->addVar( 'form', $form->createView() );
 	}
+	
+	public static function getLinkToInsertNews() {
+		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'News', 'insert' );
+	}
+	
+	public static function getLinkToAdmin() {
+		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'News', 'index' );
+	}
+	
+	public static function getLinkToUpdateComment(Comment $comment) {
+		$vars = array("id" => $comment->id());
+		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'News', 'updateComment', $vars );
+	}
+	
+	public static function getLinkToDeleteComment(Comment $comment) {
+		$vars = array("id" => $comment->id());
+		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'News', 'deleteComment', $vars );
+	}
+
+	
 }

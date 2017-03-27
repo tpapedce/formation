@@ -104,4 +104,8 @@ class NewsController extends BackController {
 		
 		$this->app->httpResponse()->redirect('/');
 	}
+	
+	public static function getLinkToNewsIndex() {
+		return \OCFram\RouterFactory::getRouter( 'Frontend' )->getUrl( 'News', 'index');
+	}
 }

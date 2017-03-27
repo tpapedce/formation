@@ -63,5 +63,8 @@ class ConnexionController extends BackController
 		$this->app->httpResponse()->redirect('/');
 	}
 	
+	public static function getLinkToLogout() {
+		return \OCFram\RouterFactory::getRouter( 'Backend' )->getUrl( 'Connexion', 'logout' );
+	}
 	
 }

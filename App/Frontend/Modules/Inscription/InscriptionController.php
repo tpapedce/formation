@@ -43,5 +43,9 @@ class InscriptionController extends BackController
 		$this->page->addVar('form', $form->createView());
 		$this->page->addVar('title', 'Inscription');
 	}
+	
+	public static function getLinkToInscription() {
+		return \OCFram\RouterFactory::getRouter( 'Frontend' )->getUrl( 'Inscription', 'inscription' );
+	}
 
 }
