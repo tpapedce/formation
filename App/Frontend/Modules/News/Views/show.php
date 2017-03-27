@@ -18,6 +18,10 @@ if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $membe
 <?php } ?>
 
 
+<h3>Ajouter un commentaire</h3>
+<form action="" method="post">
+	<p><?= $form ?> <input type="submit" value="Commenter" /></p>
+</form>
 
 <?php
 if ( empty( $comments ) ) {
@@ -43,4 +47,10 @@ foreach ( $comments as $comment ) {
 	</fieldset>
 <?php } ?>
 
-<p><a href="commenter-<?= $news[ 'id' ] ?>.html">Ajouter un commentaire</a></p>
+<h3>Ajouter un commentaire</h3>
+<form action="" method="post" id="commentPost">
+<p><?= $form ?> <input type="submit" value="Commenter" /></p>
+</form>
+<script src="/Web/js/library.js"> </script>
+<script type="text/javascript" src="/Web/js/commentPost.js"> </script>
+

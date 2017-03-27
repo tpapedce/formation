@@ -46,6 +46,8 @@ class NewsController extends BackController {
 		$this->page->addVar( 'title', htmlspecialchars ($news->titre()) );
 		$this->page->addVar( 'news', $news );
 		$this->page->addVar( 'comments', $this->managers->getManagerOf( 'Comments' )->getListOf( $news->id() ) );
+		
+		$this->executeInsertComment($request);
 	}
 	
 	public function executeInsertComment(HTTPRequest $request)
@@ -57,14 +59,14 @@ class NewsController extends BackController {
 			$member = $this->app->user()->getAttribute('Member');
 			if (null === $member){
 				$comment = new Comment([
-					'news' => ($request->getData('news')),
+					'news' => ($request->getData('id')),
 					'auteur' => $request->postData('auteur'),
 					'contenu' => $request->postData('contenu')
 				]);
 			}
 			else{
 				$comment = new Comment([
-					'news' => $request->getData('news'),
+					'news' => $request->getData('id'),
 					'auteur' => $member->id(),
 					'contenu' => $request->postData('contenu')
 				]);
@@ -86,12 +88,12 @@ class NewsController extends BackController {
 		if ($formHandler->process())
 		{
 			$this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !');
-			$this->app->httpResponse()->redirect('news-'.$request->getData('news').'.html');
+			$this->app->httpResponse()->redirect('news-'.$request->getData('id').'.html');
 		}
 		
 		$this->page->addVar('comment', $comment);
 		$this->page->addVar('form', $form->createView());
-		$this->page->addVar('title', 'Ajout d\'un commentaire');
+		//$this->page->addVar('title', 'Ajout d\'un commentaire');
 	}
 	
 	public function executeDelete( HTTPRequest $request )
@@ -113,5 +115,10 @@ class NewsController extends BackController {
 	public static function getLinkToNewsShow(News $news) {
 		$vars = array("id" => $news->id());
 		return \OCFram\RouterFactory::getRouter( 'Frontend' )->getUrl( 'News', 'show', $vars);
+	}
+	
+	public static function getLinkToInsertComment(News $news) {
+		$vars = array("id" => $news->id());
+		return \OCFram\RouterFactory::getRouter( 'Frontend' )->getUrl( 'News', 'insertComment', $vars);
 	}
 }
