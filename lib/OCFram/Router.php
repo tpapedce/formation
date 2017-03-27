@@ -1,79 +1,42 @@
 <?php
 namespace OCFram;
 
-class Router
-{
+class Router {
 	protected $routes = [];
-	
 	const NO_ROUTE = 1;
 	
-	public function addRoute(Route $route)
-	{
-		if (!in_array($route, $this->routes))
-		{
+	public function addRoute( Route $route ) {
+		if ( !in_array( $route, $this->routes ) ) {
 			$this->routes[] = $route;
 		}
 	}
 	
-	public function getRoute($url)
-	{
-		foreach ($this->routes as $route)
-		{
+	public function getRoute( $url ) {
+		foreach ( $this->routes as $route ) {
 			// Si la route correspond à l'URL
-			if (($varsValues = $route->match($url)) !== false)
-			{
+			if ( ( $varsValues = $route->match( $url ) ) !== false ) {
 				// Si elle a des variables
-				if ($route->hasVars())
-				{
+				if ( $route->hasVars() ) {
 					$varsNames = $route->varsNames();
-					$listVars = [];
+					$listVars  = [];
 					
 					// On crée un nouveau tableau clé/valeur
 					// (clé = nom de la variable, valeur = sa valeur)
-					foreach ($varsValues as $key => $match)
-					{
+					foreach ( $varsValues as $key => $match ) {
 						// La première valeur contient entièrement la chaine capturée (voir la doc sur preg_match)
-						if ($key !== 0)
-						{
-							$listVars[$varsNames[$key - 1]] = $match;
+						if ( $key !== 0 ) {
+							$listVars[ $varsNames[ $key - 1 ] ] = $match;
 						}
 					}
 					
-					// On assigne ce tableau de variables � la route
-					$route->setVars($listVars);
+					// On assigne ce tableau de variables à la route
+					$route->setVars( $listVars );
 				}
 				
 				return $route;
 			}
 		}
 		
-		throw new \RuntimeException('Aucune route ne correspond à l\'URL', self::NO_ROUTE);
+		throw new \RuntimeException( 'Aucune route ne correspond à l\'URL', self::NO_ROUTE );
 	}
-	
-	/*public function getRouteUrl( $module, $action ) {
-		$router = new Router;
-		
-		$xml = new \DOMDocument;
-		$xml->load( __DIR__ . '/../../App/' . $this->name . '/Config/routes.xml' );
-		
-		$routes = $xml->getElementsByTagName( 'route' );
-		
-		// On parcourt les routes du fichier XML.
-		foreach ( $routes as $route ) {
-			$vars = [];
-			
-			// On regarde si des variables sont présentes dans l'URL.
-			if ( $route->hasAttribute( 'vars' ) ) {
-				$vars = explode( ',', $route->getAttribute( 'vars' ) );
-			}
-			
-			if ( ( $module === $route->getAttribute( 'module' ) ) && ( $action === $route->getAttribute( 'action' ) ) ) {
-				// On ajoute la route au routeur.
-				$router->addRoute( new Route( $route->getAttribute( 'url' ), $route->getAttribute( 'module' ), $route->getAttribute( 'action' ), $vars ) );
-				
-				return $route->getAttribute( 'url' );
-			}
-		}
-	}*/
-	
 }
