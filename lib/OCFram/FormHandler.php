@@ -31,6 +31,13 @@ class FormHandler
 		$this->form = $form;
 	}
 	
+	/**
+	 * @return Form
+	 */
+	public function form() {
+		return $this->form;
+	}
+	
 	public function setManager(Manager $manager)
 	{
 		$this->manager = $manager;

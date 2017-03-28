@@ -42,6 +42,8 @@ class CommentFormBuilder extends FormBuilder
 				new NotNullValidator('Merci de spécifier votre commentaire'),
 			],
 		]));
+		
+		return $this;
 	}
 	
 }

@@ -18,19 +18,17 @@ if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $membe
 <?php } ?>
 
 
-<h3>Ajouter un commentaire</h3>
-<form action="" method="post">
-	<p><?= $form ?> <input type="submit" value="Commenter" /></p>
-</form>
+
+<?php include 'insertComment.php'; ?>
 
 <?php
 if ( empty( $comments ) ) {
 	?>
 	<p>Aucun commentaire n'a encore été posté. Soyez le premier à en laisser un !</p>
 	<?php
-}
-
-foreach ( $comments as $comment ) {
+}?>
+<div id="comment">
+<?php foreach ( $comments as $comment ) {
 	?>
 	<fieldset>
 		<legend>
@@ -46,11 +44,9 @@ foreach ( $comments as $comment ) {
 		<p class="comment"><?= htmlspecialchars( nl2br( $comment[ 'contenu' ] ) ) ?></p>
 	</fieldset>
 <?php } ?>
+</div>
 
-<h3>Ajouter un commentaire</h3>
-<form action="" method="post" id="commentPost">
-<p><?= $form ?> <input type="submit" value="Commenter" /></p>
-</form>
-<script src="/Web/js/library.js"> </script>
-<script type="text/javascript" src="/Web/js/commentPost.js"> </script>
+<?php include 'insertComment.php'; ?>
+<script src="/js/jQueryv3.2.0.min.js"> </script>
+<script type="text/javascript" src="/js/commentPost.js"> </script>
 
