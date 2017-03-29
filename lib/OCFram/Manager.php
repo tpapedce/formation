@@ -1,13 +1,11 @@
 <?php
 namespace OCFram;
 
-abstract class Manager
-{
+abstract class Manager {
 	/** @var  \PDO */
 	protected $dao;
 	
-	public function __construct($dao)
-	{
+	public function __construct( $dao ) {
 		$this->dao = $dao;
 	}
 }

@@ -1,1 +1,1 @@
-<?= echo json_encode( $retour ); ?>
+<?= json_encode( $retour ); ?>

@@ -46,7 +46,7 @@ class Router {
 			if ( ( $module == $route->module() ) && $action == $route->action() ) {
 				if ( $route->model() ) {
 					foreach ( $vars as $key => $value ) {
-						$url = str_replace( "[".$key."]", $value, $route->model() );
+						$url = str_replace( "[" . $key . "]", $value, $route->model() );
 						
 						return $url;
 					}

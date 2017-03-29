@@ -7,8 +7,8 @@
 /** @var Member|null $member */
 $member = $user->getAttribute( 'Member' );
 if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $member->status() ) && ( $member->user() === $news[ 'auteur' ] ) ) ) ) { ?>
-	<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToUpdateNews($news) ?>">Modifier</a> |
-	<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToDeleteNews($news) ?>">Supprimer</a>
+	<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToUpdateNews( $news ) ?>">Modifier</a> |
+	<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToDeleteNews( $news ) ?>">Supprimer</a>
 <?php } ?>
 
 <?php if ( $news[ 'dateAjout' ] != $news[ 'dateModif' ] ) { ?>
@@ -19,7 +19,7 @@ if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $membe
 
 
 <div id="formComment">
-<?php include 'insertComment.php'; ?>
+	<?php include 'insertComment.php'; ?>
 </div>
 
 <?php
@@ -27,29 +27,31 @@ if ( empty( $comments ) ) {
 	?>
 	<p>Aucun commentaire n'a encore été posté. Soyez le premier à en laisser un !</p>
 	<?php
-}?>
+} ?>
 <div id="comment">
-<?php foreach ( $comments as $comment ) {
-	?>
-	<fieldset>
-		<legend>
-			Posté par <strong><?= htmlspecialchars( $comment[ 'auteur' ] ? $comment[ 'auteur' ] : $this->app()->getController()->Managers()->getManagerOf( 'Comments' )->getMemberOfCommentUsingCommentFk_MMC( $comment->fk_MMC() )['user'] ) ?></strong> le <?= $comment[ 'date' ]->format( 'd/m/Y à H\hi' ) ?>
-			<?php
-			/** @var Member|null $member */
-			$member = $user->getAttribute( 'Member' );
-			if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $member->status() ) && ( $member->user() === $comment[ 'auteur' ] ) ) ) ) { ?> -
-				<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToUpdateComment($comment) ?>">Modifier</a> |
-				<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToDeleteComment($comment) ?>">Supprimer</a>
-			<?php } ?>
-		</legend>
-		<p class="comment"><?= htmlspecialchars( nl2br( $comment[ 'contenu' ] ) ) ?></p>
-	</fieldset>
-<?php } ?>
+	<?php foreach ( $comments as $comment ) {
+		?>
+		<fieldset>
+			<legend>
+				Posté par <strong><?= htmlspecialchars( $comment[ 'auteur' ]
+						? $comment[ 'auteur' ]
+						: $this->app()->getController()->Managers()->getManagerOf( 'Comments' )
+							   ->getMemberOfCommentUsingCommentFk_MMC( $comment->fk_MMC() )[ 'user' ] ) ?></strong> le <?= $comment[ 'date' ]->format( 'd/m/Y à H\hi' ) ?>
+				<?php
+				/** @var Member|null $member */
+				$member = $user->getAttribute( 'Member' );
+				if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $member->status() ) && ( $member->user() === $comment[ 'auteur' ] ) ) ) ) { ?> -
+					<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToUpdateComment( $comment ) ?>">Modifier</a> |
+					<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToDeleteComment( $comment ) ?>">Supprimer</a>
+				<?php } ?>
+			</legend>
+			<p class="comment"><?= htmlspecialchars( nl2br( $comment[ 'contenu' ] ) ) ?></p>
+		</fieldset>
+	<?php } ?>
 </div>
 
 <div id="formComment">
 	<?php include 'insertComment.php'; ?>
 </div>
-<script src="/js/jQueryv3.2.0.min.js"> </script>
-<script type="text/javascript" src="/js/commentPost.js"> </script>
-
+<script src="/js/jQueryv3.2.0.min.js"></script>
+<script type="text/javascript" src="/js/commentPost.js"></script>

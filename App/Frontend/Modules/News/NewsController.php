@@ -106,11 +106,11 @@ class NewsController extends BackController {
 		
 		$retour[ 'contenu' ] = $Comment->contenu();
 		$retour[ 'date' ]    = $Comment->date()->format( 'd/m/Y à H\hi' );
-		echo json_encode( $retour );
+		//echo json_encode( $retour );
 		
 		// donne à la vue $retour. la vue doit renvoyer du json
-		die();
-		//$this->page()->addVar( 'retour', $retour );
+		//die();
+		$this->page()->addVar( 'retour', $retour );
 	}
 	
 	/**
