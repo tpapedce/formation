@@ -6,10 +6,11 @@ use \Entity\Comment;
 
 class CommentsManagerPDO extends CommentsManager {
 	protected function add( Comment $comment ) {
-		$q = $this->dao->prepare( 'INSERT INTO comments SET news = :news, auteur = :auteur, contenu = :contenu, date = NOW()' );
+		$q = $this->dao->prepare( 'INSERT INTO comments SET news = :news, auteur = :auteur, fk_MMC = :fk_MMC, contenu = :contenu, date = NOW() ' );
 		
 		$q->bindValue( ':news', $comment->news(), \PDO::PARAM_INT );
 		$q->bindValue( ':auteur', $comment->auteur() );
+		$q->bindValue( ':fk_MMC', $comment->fk_MMC() );
 		$q->bindValue( ':contenu', $comment->contenu() );
 		
 		$q->execute();
@@ -22,7 +23,7 @@ class CommentsManagerPDO extends CommentsManager {
 			throw new \InvalidArgumentException( 'L\'identifiant de la news passé doit être un nombre entier valide' );
 		}
 		
-		$q = $this->dao->prepare( 'SELECT C.id AS id, C.news AS news, COALESCE(M.MMC_user, C.auteur) AS auteur, C.contenu AS contenu, date FROM comments AS C LEFT OUTER JOIN T_MEM_MEMBERC AS M ON C.auteur = M.MMC_id  WHERE news = :news' );
+		$q = $this->dao->prepare( 'SELECT id, news, auteur, fk_MMC, contenu, date FROM comments WHERE news = :news ORDER BY id DESC' );
 		$q->bindValue( ':news', $news, \PDO::PARAM_INT );
 		$q->execute();
 		
@@ -47,7 +48,7 @@ class CommentsManagerPDO extends CommentsManager {
 	}
 	
 	public function getUnique( $id ) {
-		$requete = $this->dao->prepare( 'SELECT C.id AS id, C.news AS news, COALESCE(M.MMC_user, C.auteur) AS auteur, C.contenu AS contenu, date FROM comments AS C LEFT OUTER JOIN T_MEM_MEMBERC AS M ON C.auteur = M.MMC_id  WHERE news = :news' );
+		$requete = $this->dao->prepare( 'SELECT id, news, auteur, fk_MMC, contenu, date FROM comments WHERE id = :id' );
 		$requete->bindValue( ':id', (int)$id, \PDO::PARAM_INT );
 		$requete->execute();
 		
@@ -63,7 +64,7 @@ class CommentsManagerPDO extends CommentsManager {
 	}
 	
 	public function get( $id ) {
-		$q = $this->dao->prepare( 'SELECT id, news, auteur, contenu FROM comments WHERE id = :id' );
+		$q = $this->dao->prepare( 'SELECT id, news, auteur, fk_MMC, contenu FROM comments WHERE id = :id' );
 		$q->bindValue( ':id', (int)$id, \PDO::PARAM_INT );
 		$q->execute();
 		
@@ -97,6 +98,16 @@ class CommentsManagerPDO extends CommentsManager {
 	public function getMemberOfCommentUsingCommentId( $id ) {
 		$q = $this->dao->prepare( 'SELECT M.MMC_id AS id, M.MMC_user AS user, M.MMC_password AS password, M.MMC_email AS email, M.MMC_dateinscription AS dateinscription, M.MMC_fk_MMY FROM T_MEM_MEMBERC AS M INNER JOIN comments AS C ON C.auteur = M.MMC_id WHERE C.id = :id' );
 		$q->bindValue( ':id', $id );
+		$q->execute();
+		
+		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );
+		
+		return $q->fetch();
+	}
+	
+	public function getMemberOfCommentUsingCommentFk_MMC( $fk_MMC ) {
+		$q = $this->dao->prepare( 'SELECT M.MMC_id AS id, M.MMC_user AS user, M.MMC_password AS password, M.MMC_email AS email, M.MMC_dateinscription AS dateinscription, M.MMC_fk_MMY FROM T_MEM_MEMBERC AS M INNER JOIN comments AS C ON C.fk_MMC = M.MMC_id WHERE C.fk_MMC = :fk_MMC' );
+		$q->bindValue( ':fk_MMC', $fk_MMC );
 		$q->execute();
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );

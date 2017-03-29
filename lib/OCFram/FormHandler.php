@@ -19,7 +19,6 @@ class FormHandler
 		if($this->request->method() == 'POST' && $this->form->isValid())
 		{
 			$this->manager->save($this->form->entity());
-			
 			return true;
 		}
 		

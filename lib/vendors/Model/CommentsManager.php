@@ -68,4 +68,6 @@ abstract class CommentsManager extends Manager
 	abstract public function getNewsUsingId($id);
 	
 	abstract public function getMemberOfCommentUsingCommentId($id);
+	
+	abstract public function getMemberOfCommentUsingCommentFk_MMC($fk_MMC);
 }

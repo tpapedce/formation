@@ -8,6 +8,7 @@ class Comment extends Entity
 	protected $id,
 		$news,
 		$auteur,
+		$fk_MMC,
 		$contenu,
 		$date;
 	
@@ -16,7 +17,7 @@ class Comment extends Entity
 	
 	public function isValid()
 	{
-		return !(empty($this->auteur) || empty($this->contenu));
+		return !((empty($this->auteur) && (empty($this->fk_MMC))) || empty($this->contenu));
 	}
 	
 	public function setNews($news)
@@ -34,6 +35,11 @@ class Comment extends Entity
 		$this->auteur = $auteur;
 	}
 	
+	public function setFk_MMC($fk_MMC)
+	{
+		$this->fk_MMC = $fk_MMC;
+	}
+	
 	public function setContenu($contenu)
 	{
 		if (!is_string($contenu) || empty($contenu))
@@ -44,7 +50,7 @@ class Comment extends Entity
 		$this->contenu = $contenu;
 	}
 	
-	public function setDate(\DateTime $date)
+	public function setDate($date)
 	{
 		$this->date = $date;
 	}
@@ -62,6 +68,11 @@ class Comment extends Entity
 	public function auteur()
 	{
 		return $this->auteur;
+	}
+	
+	public function fk_MMC()
+	{
+		return $this->fk_MMC;
 	}
 	
 	public function contenu()

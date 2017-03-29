@@ -62,7 +62,6 @@ class NewsController extends BackController {
 			$this->app->user()->setFlash( 'La news n\'existe pas !' );
 			$this->app()->httpResponse()->redirect404();
 		}
-		
 		$FormHandler = $this->buildCommentForm( $request );
 		if ( $FormHandler->process() ) {
 			$this->app->user()->setFlash( 'Le commentaire a bien été ajouté, merci !' );
@@ -82,23 +81,36 @@ class NewsController extends BackController {
 		
 		$News = $this->Managers()->getManagerOf( 'News' )->getUnique( $request->getData( 'id' ) );
 		if ( !$News ) {
-			//TODO : case d'erreur a traiter
-			
+			$retour[ 'result' ] = "error";
 		}
 		$FormHandler = $this->buildCommentForm( $request );
 		if ( $FormHandler->process() ) {
-			$retour = array(
-				"result" => "success",
-			);
+			$retour[ 'result' ] = "success";
 		}
 		else {
-			$retour = array(
-				"result" => "error",
-			);
+			$retour[ 'result' ] = "error";
+		}
+		/** @var Comment|null $Comment */
+		$Comment = $FormHandler->form()->entity();
+		$Comment = $this->managers->getManagerOf( 'Comments' )->getUnique( $Comment->id() );
+		if ( !$this->app()->user()->isAuthenticated() ) {
+			$retour[ 'auteur' ]      = $Comment->auteur();
+			$retour[ 'isConnected' ] = 'false';
+		}
+		else {
+			$retour[ 'auteur' ]      = $this->app()->user()->getAttribute( 'Member' )->user();
+			$retour[ 'isConnected' ] = 'true';
+			$retour[ 'linkUpdate' ]  = \App\Backend\Modules\News\NewsController::getLinkToUpdateComment( $Comment );
+			$retour[ 'linkDelete' ]  = \App\Backend\Modules\News\NewsController::getLinkToDeleteComment( $Comment );
 		}
 		
+		$retour[ 'contenu' ] = $Comment->contenu();
+		$retour[ 'date' ]    = $Comment->date()->format( 'd/m/Y à H\hi' );
 		echo json_encode( $retour );
+		
+		// donne à la vue $retour. la vue doit renvoyer du json
 		die();
+		//$this->page()->addVar( 'retour', $retour );
 	}
 	
 	/**
@@ -110,19 +122,19 @@ class NewsController extends BackController {
 		/** @var Member|null $member */
 		$member = $this->app->user()->getAttribute( 'Member' );
 		// si membre connecté alors auteur = member connecté
-		$auteur  = $member ? $member->id() : $request->postData( 'auteur' );
+		$auteur  = $member ? null : $request->postData( 'auteur' );
+		$fk_MMC  = $member ? $member->id() : null;
 		$comment = new Comment( [
 			'news'    => $request->getData( 'id' ),
 			'auteur'  => $auteur,
+			'fk_MMC'  => $fk_MMC,
 			'contenu' => $request->postData( 'contenu' ),
 		] );
 		
-		
 		$formBuilder = new CommentFormBuilder( $comment, $this->app->user()->getAttribute( 'Member' ) );
 		$form        = $formBuilder->form();
-		$formHandler = new FormHandler( $form, $this->managers->getManagerOf( 'Comments' ), $request );
 		
-		return $formHandler;
+		return new FormHandler( $form, $this->managers->getManagerOf( 'Comments' ), $request );
 	}
 	
 	public function executeDelete( HTTPRequest $request ) {

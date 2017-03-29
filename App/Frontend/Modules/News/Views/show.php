@@ -18,8 +18,9 @@ if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $membe
 <?php } ?>
 
 
-
+<div id="formComment">
 <?php include 'insertComment.php'; ?>
+</div>
 
 <?php
 if ( empty( $comments ) ) {
@@ -32,7 +33,7 @@ if ( empty( $comments ) ) {
 	?>
 	<fieldset>
 		<legend>
-			Posté par <strong><?= htmlspecialchars( $comment[ 'auteur' ] ) ?></strong> le <?= $comment[ 'date' ]->format( 'd/m/Y à H\hi' ) ?>
+			Posté par <strong><?= htmlspecialchars( $comment[ 'auteur' ] ? $comment[ 'auteur' ] : $this->app()->getController()->Managers()->getManagerOf( 'Comments' )->getMemberOfCommentUsingCommentFk_MMC( $comment->fk_MMC() )['user'] ) ?></strong> le <?= $comment[ 'date' ]->format( 'd/m/Y à H\hi' ) ?>
 			<?php
 			/** @var Member|null $member */
 			$member = $user->getAttribute( 'Member' );
@@ -46,7 +47,9 @@ if ( empty( $comments ) ) {
 <?php } ?>
 </div>
 
-<?php include 'insertComment.php'; ?>
+<div id="formComment">
+	<?php include 'insertComment.php'; ?>
+</div>
 <script src="/js/jQueryv3.2.0.min.js"> </script>
 <script type="text/javascript" src="/js/commentPost.js"> </script>
 
