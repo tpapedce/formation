@@ -72,4 +72,15 @@ class News extends Entity {
 	public function dateModif() {
 		return $this->dateModif;
 	}
+	
+	public function jsonSerialize() {
+		return [
+			'id' => $this->id(),
+			'auteur' => $this->auteur(),
+			'titre' => $this->titre(),
+			'contenu' => $this->contenu(),
+			'dateAjout' => $this->dateAjout(),
+			'dateModif' => $this->dateModif(),
+		];
+	}
 }

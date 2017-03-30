@@ -33,4 +33,8 @@ class HTTPRequest extends ApplicationComponent {
 	public function requestURI() {
 		return $_SERVER[ 'REQUEST_URI' ];
 	}
+	
+	public function requestHTTPAccept() {
+		return $_SERVER[ 'HTTP_ACCEPT' ];
+	}
 }

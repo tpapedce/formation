@@ -73,4 +73,15 @@ class Member extends Entity {
 	public function status() {
 		return $this->status;
 	}
+	
+	public function jsonSerialize() {
+		return [
+			'id' => $this->id(),
+			'user' => $this->user(),
+			'password' => $this->password(),
+			'dateInscription' => $this->dateInscription(),
+			'email' => $this->email(),
+			'status' => $this->status(),
+		];
+	}
 }

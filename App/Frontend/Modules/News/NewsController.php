@@ -81,36 +81,27 @@ class NewsController extends BackController {
 		
 		$News = $this->Managers()->getManagerOf( 'News' )->getUnique( $request->getData( 'id' ) );
 		if ( !$News ) {
-			$retour[ 'result' ] = "error";
+			$this->page()->addVar( 'result', "error" );
 		}
 		$FormHandler = $this->buildCommentForm( $request );
 		if ( $FormHandler->process() ) {
-			$retour[ 'result' ] = "success";
+			$this->page()->addVar( 'result', "success" );
 		}
 		else {
-			$retour[ 'result' ] = "error";
+			$this->page()->addVar( 'result', "error" );
 		}
 		/** @var Comment|null $Comment */
 		$Comment = $FormHandler->form()->entity();
 		$Comment = $this->managers->getManagerOf( 'Comments' )->getUnique( $Comment->id() );
 		if ( !$this->app()->user()->isAuthenticated() ) {
-			$retour[ 'auteur' ]      = $Comment->auteur();
-			$retour[ 'isConnected' ] = 'false';
+			$this->page()->addVar( 'isConnected', 'false' );
 		}
 		else {
-			$retour[ 'auteur' ]      = $this->app()->user()->getAttribute( 'Member' )->user();
-			$retour[ 'isConnected' ] = 'true';
-			$retour[ 'linkUpdate' ]  = \App\Backend\Modules\News\NewsController::getLinkToUpdateComment( $Comment );
-			$retour[ 'linkDelete' ]  = \App\Backend\Modules\News\NewsController::getLinkToDeleteComment( $Comment );
+			$this->page()->addVar( 'isConnected', 'true' );
+			$this->page()->addVar( 'linkUpdate', \App\Backend\Modules\News\NewsController::getLinkToUpdateComment( $Comment ) );
+			$this->page()->addVar( 'linkDelete', \App\Backend\Modules\News\NewsController::getLinkToDeleteComment( $Comment ) );
 		}
-		
-		$retour[ 'contenu' ] = $Comment->contenu();
-		$retour[ 'date' ]    = $Comment->date()->format( 'd/m/Y à H\hi' );
-		//echo json_encode( $retour );
-		
-		// donne à la vue $retour. la vue doit renvoyer du json
-		//die();
-		$this->page()->addVar( 'retour', $retour );
+		$this->page()->addVar('Comment', $Comment->jsonSerialize());
 	}
 	
 	/**

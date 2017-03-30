@@ -63,4 +63,15 @@ class Comment extends Entity {
 	public function date() {
 		return $this->date;
 	}
+	
+	public function jsonSerialize() {
+		return [
+			'id' => $this->id(),
+			'news' => $this->news(),
+			'auteur' => $this->auteur(),
+			'fk_MMC' => $this->fk_MMC(),
+			'contenu' => $this->contenu(),
+			'date' => $this->date()->format( 'd/m/Y à H\hi' ),
+		];
+	}
 }
