@@ -61,4 +61,13 @@ abstract class Application {
 	public function user() {
 		return $this->user;
 	}
+
+//if ( $user->isAuthenticated() )
+//<p>Content de vous revoir <?= htmlspecialchars( $user->getAttribute( 'Member' )[ 'user' ] ) !
+//<?php if ( 2 == $user->getAttribute( 'Member' )[ 'status' ] ) :
+	
+	
+	protected function getMenu($user){
+		
+	}
 }

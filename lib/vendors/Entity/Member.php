@@ -3,7 +3,7 @@ namespace Entity;
 
 use \OCFram\Entity;
 
-class Member extends Entity {
+class Member extends Entity implements \JsonSerializable {
 	protected $id, $user, $password, $dateInscription, $email, $status;
 	const USER_INVALIDE     = 1;
 	const PASSWORD_INVALIDE = 2;

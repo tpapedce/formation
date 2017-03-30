@@ -3,7 +3,7 @@ namespace Entity;
 
 use \OCFram\Entity;
 
-class Comment extends Entity {
+class Comment extends Entity implements \JsonSerializable {
 	protected $id, $news, $auteur, $fk_MMC, $contenu, $date;
 	const AUTEUR_INVALIDE  = 1;
 	const CONTENU_INVALIDE = 2;

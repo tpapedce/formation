@@ -101,6 +101,13 @@ class NewsController extends BackController {
 			$this->page()->addVar( 'linkUpdate', \App\Backend\Modules\News\NewsController::getLinkToUpdateComment( $Comment ) );
 			$this->page()->addVar( 'linkDelete', \App\Backend\Modules\News\NewsController::getLinkToDeleteComment( $Comment ) );
 		}
+		// si il y a une fk_MMC, on la remplace par le user
+		if ($Comment->fk_MMC()){
+//			var_dump($this->managers->getManagerOf('Comments')->getMemberOfCommentUsingCommentFk_MMC($Comment->fk_MMC()));
+			$Comment->setFk_MMC($this->managers->getManagerOf('Comments')->getMemberOfCommentUsingCommentFk_MMC($Comment->fk_MMC()));
+//			var_dump($Comment);
+		}
+		
 		$this->page()->addVar('Comment', $Comment->jsonSerialize());
 	}
 	

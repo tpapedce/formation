@@ -20,7 +20,8 @@
 						Vous disposez des droits administrateur.
 					<?php endif; ?>
 					<?php else : ?>
-				<p>Bienvenue ! <a class="colorFuchsia" href="<?= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?>">Connectez vous</a> ou <a class="colorFuchsia" href="<?= \App\Frontend\Modules\Inscription\InscriptionController::getLinkToInscription() ?>">créez un compte</a> gratuitement !
+				<p>Bienvenue ! <a class="colorFuchsia" href="<?= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?>">Connectez vous</a> ou
+					<a class="colorFuchsia" href="<?= \App\Frontend\Modules\Inscription\InscriptionController::getLinkToInscription() ?>">créez un compte</a> gratuitement !
 					<?php endif; ?>
 				</p>
 			</header>
@@ -50,7 +51,6 @@
 					<?= $content ?>
 				</section>
 			</div>
-			
 			<footer></footer>
 		</div>
 	</body>

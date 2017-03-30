@@ -18,10 +18,9 @@ class Page extends ApplicationComponent {
 		if ( !file_exists( $this->contentFile ) ) {
 			throw new \RuntimeException( 'La vue spécifiée n\'existe pas' );
 		}
-		// appeler soit getGeneratedPageHTML soit getGeneratedPageHTML en fonction de HTTPrequest (+ ou -)
-		var_dump( strpos( $this->app()->httpRequest()->requestHTTPAccept(), 'application/json' ) );
 		
-		if ( strpos( $this->app()->httpRequest()->requestHTTPAccept(), 'application/json' ) ) {
+		// si le request demande du json
+		if ( ( preg_match( "^application/json^", $this->app()->httpRequest()->requestHTTPAccept() ) ) == 1 ) {
 			return $this->getGeneratedPageJson();
 		}
 		else {
@@ -31,7 +30,7 @@ class Page extends ApplicationComponent {
 	
 	/** fonction qui génère la page "JSON" (renvoie un objet JSON) */
 	public function getGeneratedPageJson() {
-		
+		$this->app()->httpResponse()->addHeader( 'Content-Type: application/json' );
 		extract( $this->vars );
 		
 		// le content = le return de la vue JSON

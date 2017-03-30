@@ -96,7 +96,7 @@ class CommentsManagerPDO extends CommentsManager {
 	}
 	
 	public function getMemberOfCommentUsingCommentId( $id ) {
-		$q = $this->dao->prepare( 'SELECT M.MMC_id AS id, M.MMC_user AS user, M.MMC_password AS password, M.MMC_email AS email, M.MMC_dateinscription AS dateinscription, M.MMC_fk_MMY FROM T_MEM_MEMBERC AS M INNER JOIN comments AS C ON C.auteur = M.MMC_id WHERE C.id = :id' );
+		$q = $this->dao->prepare( 'SELECT M.MMC_id AS id, M.MMC_user AS user, M.MMC_password AS password, M.MMC_email AS email, M.MMC_dateinscription AS dateInscription, M.MMC_fk_MMY AS status FROM T_MEM_MEMBERC AS M INNER JOIN comments AS C ON C.fk_MMC = M.MMC_id WHERE C.id = :id' );
 		$q->bindValue( ':id', $id );
 		$q->execute();
 		
@@ -106,7 +106,7 @@ class CommentsManagerPDO extends CommentsManager {
 	}
 	
 	public function getMemberOfCommentUsingCommentFk_MMC( $fk_MMC ) {
-		$q = $this->dao->prepare( 'SELECT M.MMC_id AS id, M.MMC_user AS user, M.MMC_password AS password, M.MMC_email AS email, M.MMC_dateinscription AS dateinscription, M.MMC_fk_MMY FROM T_MEM_MEMBERC AS M INNER JOIN comments AS C ON C.fk_MMC = M.MMC_id WHERE C.fk_MMC = :fk_MMC' );
+		$q = $this->dao->prepare( 'SELECT M.MMC_id AS id, M.MMC_user AS user, M.MMC_password AS password, M.MMC_email AS email, M.MMC_dateinscription AS dateInscription, M.MMC_fk_MMY AS status FROM T_MEM_MEMBERC AS M INNER JOIN comments AS C ON C.fk_MMC = M.MMC_id WHERE C.fk_MMC = :fk_MMC' );
 		$q->bindValue( ':fk_MMC', $fk_MMC );
 		$q->execute();
 		

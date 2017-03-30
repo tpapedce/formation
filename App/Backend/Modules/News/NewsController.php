@@ -146,6 +146,7 @@ class NewsController extends BackController {
 	}
 	
 	public function executeDeleteComment( HTTPRequest $request ) {
+		var_dump($this->managers->getManagerOf( 'Comments' )->getMemberOfCommentUsingCommentId( $request->getData( 'id' ) ));
 		/** @var Member $Member */
 		$member = $this->app->user()->getAttribute( 'Member' );
 		if ( ( 2 == $member->status() )

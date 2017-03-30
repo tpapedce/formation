@@ -15,14 +15,12 @@
 			<header>
 				<h1><a href="/">Mon super site</a></h1>
 				<?php if ($user->isAuthenticated()) {
-					/** @var Member|null $member */
-					$member = $user->getAttribute('Member');
 					?>
-					<p>Content de vous revoir <?php htmlspecialchars ($member->user())?>!
-				<?php
-				if (2 == $member->status()) {?>
-						Vous disposez des droits administrateur.
-				<?php }} ?>
+					<p>Content de vous revoir  <?= htmlspecialchars( $user->getAttribute( 'Member' )[ 'user' ] ) ?>!
+						<?php if ( 2 == $user->getAttribute( 'Member' )[ 'status' ] ) : ?>
+							Vous disposez des droits administrateur.
+						<?php endif; ?>
+				<?php } ?>
 					</p>
 			</header>
 			

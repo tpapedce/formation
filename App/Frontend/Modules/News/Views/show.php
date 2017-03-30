@@ -40,7 +40,7 @@ if ( empty( $comments ) ) {
 				<?php
 				/** @var Member|null $member */
 				$member = $user->getAttribute( 'Member' );
-				if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $member->status() ) && ( $member->user() === $comment[ 'auteur' ] ) ) ) ) { ?> -
+				if ( $user->isAuthenticated() && ( ( 2 == $member->status() ) || ( ( 1 == $member->status() ) && ( $member->id() === $comment[ 'fk_MMC' ] ) ) ) ) { ?> -
 					<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToUpdateComment( $comment ) ?>">Modifier</a> |
 					<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToDeleteComment( $comment ) ?>">Supprimer</a>
 				<?php } ?>

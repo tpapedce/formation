@@ -1,12 +1,18 @@
 <?php
-
+//var_dump($Comment);
+//die();
 $json = [
+	
 	'comment'=> $Comment,
 	'isConnected' => $isConnected,
-	'linkUpdate' => $linkUpdate,
-	'linkDelete' => $linkDelete,
+	'result' => $result,
 	];
 
+if ('true' === $isConnected){
+	
+	$json['linkUpdate'] = $linkUpdate;
+	$json['linkDelete'] = $linkDelete;
+}
 return $json;
 
 ?>
