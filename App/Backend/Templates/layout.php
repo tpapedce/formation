@@ -13,31 +13,16 @@
 	<body>
 		<div id="wrap">
 			<header>
-				<h1><a href="/">Mon super site</a></h1>
-				<?php if ($user->isAuthenticated()) {
-					?>
-					<p>Content de vous revoir  <?= htmlspecialchars( $user->getAttribute( 'Member' )[ 'user' ] ) ?>!
-						<?php if ( 2 == $user->getAttribute( 'Member' )[ 'status' ] ) : ?>
-							Vous disposez des droits administrateur.
-						<?php endif; ?>
-				<?php } ?>
-					</p>
+				
+				<?= isset($header) ? $header : null ?>
+				
 			</header>
 			
 			<nav>
 				<ul>
 					
-					<?= $string ?>
-<!--					<li><a href="/">Accueil</a></li>-->
-<!--					--><?php //if ($user->isAuthenticated()) {
-//						/** @var Member|null $member */
-//						$member = $user->getAttribute('Member');
-//						if (2 === $member->status()){?>
-<!--							<li><a href="--><?//= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?><!--">Admin</a></li>-->
-<!--						--><?php //} ?>
-<!--						<li><a href="--><?//= \App\Backend\Modules\News\NewsController::getLinkToInsertNews() ?><!--">Ajouter une news</a></li>-->
-<!--						<li><a href="--><?//= \App\Backend\Modules\Connexion\ConnexionController::getLinkToLogout() ?><!--">Se deconnecter</a></li>-->
-<!--					--><?php //} ?>
+					<?= isset($menu) ? $menu : null ?>
+					
 				</ul>
 			</nav>
 			

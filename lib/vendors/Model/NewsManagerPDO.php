@@ -1,6 +1,7 @@
 <?php
 namespace Model;
 
+use Entity\Member;
 use \Entity\News;
 
 class NewsManagerPDO extends NewsManager {
@@ -51,6 +52,8 @@ class NewsManagerPDO extends NewsManager {
 			$news->setDateAjout( new \DateTime( $news->dateAjout() ) );
 			$news->setDateModif( new \DateTime( $news->dateModif() ) );
 			
+			$this->resultRequest_a[ 'News_getUnique_' . $id ] = $news;
+			
 			return $news;
 		}
 		
@@ -78,12 +81,26 @@ class NewsManagerPDO extends NewsManager {
 		$q->execute();
 	}
 	
+	/**
+	 * fonction qui retourne l'auteur d'une news
+	 *
+	 * @param $id
+	 *
+	 * @return Member
+	 */
 	public function getMemberUsingId( $id ) {
+		
+//		if ( isset( $this->resultRequest_a[ 'News_getMemberUsingId_' . $id ] ) ) {
+//			return $this->resultRequest_a[ 'News_getMemberUsingId_' . $id ];
+//		}
+		
 		$q = $this->dao->prepare( 'SELECT M.MMC_id AS id, M.MMC_user AS user, M.MMC_password AS password, M.MMC_email AS email, M.MMC_dateinscription AS dateInscription, M.MMC_fk_MMY AS status FROM T_MEM_MEMBERC AS M INNER JOIN news AS N ON N.auteur = M.MMC_id WHERE N.id = :id' );
 		$q->bindValue( ':id', $id );
 		$q->execute();
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );
+		
+		$this->resultRequest_a[ 'News_getMemberUsingId_' . $id ] = $q->fetch();;
 		
 		return $q->fetch();
 	}

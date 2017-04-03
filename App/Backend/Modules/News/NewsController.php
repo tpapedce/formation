@@ -46,11 +46,11 @@ class NewsController extends BackController {
 	}
 	
 	public function executeUpdate( HTTPRequest $request ) {
-		/** @var Member $Member */
+		/** @var Member $member */
 		$member = $this->app->user()->getAttribute( 'Member' );
 		if ( ( 2 == $member->status() )
 			 || ( ( 1 == $member->status() )
-				  && ( $member->id() == $this->managers->getManagerOf( 'News' )->getMemberUsingId( $request->getData( 'id' ) )->id() ) )
+				  && ( $member->id() == $this->managers->getManagerOf( 'News' )->getMemberUsingId( $request->getData( 'id' ) )['id'] ) )
 		) {
 			$this->processForm( $request );
 			
@@ -68,7 +68,7 @@ class NewsController extends BackController {
 		$member = $this->app->user()->getAttribute( 'Member' );
 		if ( ( 2 == $member->status() )
 			 || ( ( 1 == $member->status() )
-				  && ( $member->id() == $this->managers->getManagerOf( 'News' )->getMemberUsingId( $request->getData( 'id' ) )->id() ) )
+				  && ( $member->id() == $this->managers->getManagerOf( 'News' )->getMemberUsingId( $request->getData( 'id' ) )['id'] ) )
 		) {
 			$this->managers->getManagerOf( 'News' )->delete( $request->getData( 'id' ) );
 			
@@ -108,7 +108,7 @@ class NewsController extends BackController {
 		$member = $this->app->user()->getAttribute( 'Member' );
 		if ( ( 2 == $member->status() )
 			 || ( ( 1 == $member->status() )
-				  && ( $member->id() == $this->managers->getManagerOf( 'Comments' )->getMemberOfCommentUsingCommentId( $request->getData( 'id' ) )->id() ) )
+				  && ( $member->id() == $this->managers->getManagerOf( 'Comments' )->getMemberOfCommentUsingCommentId( $request->getData( 'id' ) )['id'] ) )
 		) {
 			$this->page->addVar( 'title', 'Modification d\'un commentaire' );
 			
@@ -146,12 +146,11 @@ class NewsController extends BackController {
 	}
 	
 	public function executeDeleteComment( HTTPRequest $request ) {
-		var_dump($this->managers->getManagerOf( 'Comments' )->getMemberOfCommentUsingCommentId( $request->getData( 'id' ) ));
 		/** @var Member $Member */
 		$member = $this->app->user()->getAttribute( 'Member' );
 		if ( ( 2 == $member->status() )
 			 || ( ( 1 == $member->status() )
-				  && ( $member->id() == $this->managers->getManagerOf( 'Comments' )->getMemberOfCommentUsingCommentId( $request->getData( 'id' ) )->id() ) )
+				  && ( $member->id() == $this->managers->getManagerOf( 'Comments' )->getMemberOfCommentUsingCommentId( $request->getData( 'id' ) )['id'] ) )
 		) {
 			$this->managers->getManagerOf( 'Comments' )->delete( $request->getData( 'id' ) );
 			

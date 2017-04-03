@@ -5,6 +5,7 @@ namespace Model;
 use \Entity\Comment;
 
 class CommentsManagerPDO extends CommentsManager {
+	
 	protected function add( Comment $comment ) {
 		$q = $this->dao->prepare( 'INSERT INTO comments SET news = :news, auteur = :auteur, fk_MMC = :fk_MMC, contenu = :contenu, date = NOW() ' );
 		
@@ -57,12 +58,19 @@ class CommentsManagerPDO extends CommentsManager {
 		if ( $comment = $requete->fetch() ) {
 			$comment->setDate( new \DateTime( $comment->date() ) );
 			
+			$this->$resultRequest_a['Comments_getUnique_'.$id] = $comment;
 			return $comment;
 		}
 		
+		$this->$resultRequest_a['Comments_getUnique_'.$id] = null;
 		return null;
 	}
 	
+	/**
+	 * @param int $id
+	 *
+	 * @return mixed
+	 */
 	public function get( $id ) {
 		$q = $this->dao->prepare( 'SELECT id, news, auteur, fk_MMC, contenu FROM comments WHERE id = :id' );
 		$q->bindValue( ':id', (int)$id, \PDO::PARAM_INT );
@@ -70,6 +78,7 @@ class CommentsManagerPDO extends CommentsManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Comment' );
 		
+		$this->resultRequest_a['Comments_get_'.$id] = $q->fetch();
 		return $q->fetch();
 	}
 	
@@ -92,6 +101,7 @@ class CommentsManagerPDO extends CommentsManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\News' );
 		
+		$this->resultRequest_a['Comments_getNewsUsingId_'.$id] = $q->fetch();
 		return $q->fetch();
 	}
 	
@@ -102,6 +112,7 @@ class CommentsManagerPDO extends CommentsManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );
 		
+		$this->resultRequest_a['Comments_getMemberOfCommentUsingCommentId_'.$id] = $q->fetch();
 		return $q->fetch();
 	}
 	
@@ -112,6 +123,9 @@ class CommentsManagerPDO extends CommentsManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );
 		
+		$this->resultRequest_a['Comments_getMemberOfCommentUsingCommentFk_MMC_'.$id] = $q->fetch();
 		return $q->fetch();
 	}
+	
+	
 }

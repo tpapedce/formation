@@ -61,8 +61,10 @@ abstract class Application {
 	public function user() {
 		return $this->user;
 	}
-
+	
 	abstract public function getMenu();
+	
+	abstract public function generateHeader();
 	
 	abstract public function generateMenu();
 }

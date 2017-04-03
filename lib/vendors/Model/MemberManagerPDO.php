@@ -9,6 +9,7 @@ use \Entity\Member;
  * @package Model
  */
 class MemberManagerPDO extends MemberManager {
+	
 	protected function add( Member $member ) {
 		
 		$q = $this->dao->prepare( 'INSERT INTO t_mem_memberc SET MMC_user = :user, MMC_password = :password, MMC_email = :email, MMC_dateinscription = NOW(), MMC_fk_MMY = 1' );
@@ -40,6 +41,7 @@ class MemberManagerPDO extends MemberManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );
 		
+		$this->resultRequest_a['Member_get_'.$id] = $q->fetch();
 		return $q->fetch();
 	}
 	
@@ -53,9 +55,11 @@ class MemberManagerPDO extends MemberManager {
 		if ( $member = $requete->fetch() ) {
 			$member->setDateInscription( new \DateTime( $member->dateInscription() ) );
 			
+			$this->resultRequest_a['Member_getUnique_'.$id] = $q->fetch();
 			return $member;
 		}
 		
+		$this->resultRequest_a['Member_getUnique_'.$id] = null;
 		return null;
 	}
 	
@@ -103,6 +107,7 @@ class MemberManagerPDO extends MemberManager {
 		$q->bindValue( ':pseudo', $pseudo );
 		$q->execute();
 		
+		$this->resultRequest_a['Member_existMemberUsingPseudo_'.$pseudo] = (bool)$q->fetchColumn();
 		return (bool)$q->fetchColumn();
 	}
 	
@@ -111,6 +116,7 @@ class MemberManagerPDO extends MemberManager {
 		$q->bindValue( ':email', $email );
 		$q->execute();
 		
+		$this->resultRequest_a['Member_existMemberUsingEmail_'.$email] = (bool)$q->fetchColumn();
 		return (bool)$q->fetchColumn();
 	}
 	
@@ -121,6 +127,8 @@ class MemberManagerPDO extends MemberManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );
 		
+		$this->resultRequest_a['Member_getMemberUsingLogin_'.$login] = $q->fetch();
 		return $q->fetch();
 	}
+	
 }

@@ -1,7 +1,7 @@
 <p>Par <em><?= $news[ 'auteur' ] ?></em>, le <?= $news[ 'dateAjout' ]->format( 'd/m/Y à H\hi' ) ?></p>
 <h2><?= htmlspecialchars( $news[ 'titre' ] ) ?></h2>
 
-<p><?= htmlspecialchars( nl2br( $news[ 'contenu' ] ) ) ?></p>
+<p><?= nl2br(htmlspecialchars(  $news[ 'contenu' ] ) ) ?></p>
 
 <?php
 /** @var Member|null $member */
@@ -45,7 +45,7 @@ if ( empty( $comments ) ) {
 					<a href="<?= \App\Backend\Modules\News\NewsController::getLinkToDeleteComment( $comment ) ?>">Supprimer</a>
 				<?php } ?>
 			</legend>
-			<p class="comment"><?= htmlspecialchars( nl2br( $comment[ 'contenu' ] ) ) ?></p>
+			<p class="comment"><?= nl2br(htmlspecialchars( $comment[ 'contenu' ] ) ) ?></p>
 		</fieldset>
 	<?php } ?>
 </div>
