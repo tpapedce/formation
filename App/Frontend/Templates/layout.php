@@ -28,17 +28,21 @@
 			
 			<nav>
 				<ul>
-					<li><a href="<?= \App\Frontend\Modules\News\NewsController::getLinkToNewsIndex() ?>">Accueil</a></li>
-					<?php if ( $user->isAuthenticated() ) : ?>
-						<?php if ( 2 == $user->getAttribute( 'Member' )[ 'status' ] ) : ?>
-							<li><a href="<?= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?>">Admin</a></li>
-						<?php endif; ?>
-						<li><a href="<?= \App\Backend\Modules\News\NewsController::getLinkToInsertNews() ?>">Ajouter une news</a></li>
-						<li><a href="<?= \App\Backend\Modules\Connexion\ConnexionController::getLinkToLogout() ?>">Se deconnecter</a></li>
-					<?php else : ?>
-						<li><a href="<?= \App\Frontend\Modules\Inscription\InscriptionController::getLinkToInscription() ?>">Inscription</a></li>
-						<li><a href="<?= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?>">Connexion</a></li>
-					<?php endif; ?>
+					
+					<?= $string ?>
+					
+					
+<!--					<li><a href="--><?//= \App\Frontend\Modules\News\NewsController::getLinkToNewsIndex() ?><!--">Accueil</a></li>-->
+<!--					--><?php //if ( $user->isAuthenticated() ) : ?>
+<!--						--><?php //if ( 2 == $user->getAttribute( 'Member' )[ 'status' ] ) : ?>
+<!--							<li><a href="--><?//= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?><!--">Admin</a></li>-->
+<!--						--><?php //endif; ?>
+<!--						<li><a href="--><?//= \App\Backend\Modules\News\NewsController::getLinkToInsertNews() ?><!--">Ajouter une news</a></li>-->
+<!--						<li><a href="--><?//= \App\Backend\Modules\Connexion\ConnexionController::getLinkToLogout() ?><!--">Se deconnecter</a></li>-->
+<!--					--><?php //else : ?>
+<!--						<li><a href="--><?//= \App\Frontend\Modules\Inscription\InscriptionController::getLinkToInscription() ?><!--">Inscription</a></li>-->
+<!--						<li><a href="--><?//= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?><!--">Connexion</a></li>-->
+<!--					--><?php //endif; ?>
 				</ul>
 			</nav>
 			

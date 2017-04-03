@@ -26,16 +26,18 @@
 			
 			<nav>
 				<ul>
-					<li><a href="/">Accueil</a></li>
-					<?php if ($user->isAuthenticated()) {
-						/** @var Member|null $member */
-						$member = $user->getAttribute('Member');
-						if (2 === $member->status()){?>
-							<li><a href="<?= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?>">Admin</a></li>
-						<?php } ?>
-						<li><a href="<?= \App\Backend\Modules\News\NewsController::getLinkToInsertNews() ?>">Ajouter une news</a></li>
-						<li><a href="<?= \App\Backend\Modules\Connexion\ConnexionController::getLinkToLogout() ?>">Se deconnecter</a></li>
-					<?php } ?>
+					
+					<?= $string ?>
+<!--					<li><a href="/">Accueil</a></li>-->
+<!--					--><?php //if ($user->isAuthenticated()) {
+//						/** @var Member|null $member */
+//						$member = $user->getAttribute('Member');
+//						if (2 === $member->status()){?>
+<!--							<li><a href="--><?//= \App\Backend\Modules\News\NewsController::getLinkToAdmin() ?><!--">Admin</a></li>-->
+<!--						--><?php //} ?>
+<!--						<li><a href="--><?//= \App\Backend\Modules\News\NewsController::getLinkToInsertNews() ?><!--">Ajouter une news</a></li>-->
+<!--						<li><a href="--><?//= \App\Backend\Modules\Connexion\ConnexionController::getLinkToLogout() ?><!--">Se deconnecter</a></li>-->
+<!--					--><?php //} ?>
 				</ul>
 			</nav>
 			
