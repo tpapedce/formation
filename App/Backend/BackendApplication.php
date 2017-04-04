@@ -52,11 +52,13 @@ class BackendApplication extends Application {
 	 */
 	public function getMenu() {
 		$menu_a[ 'Accueil' ]          = NewsController::getLinkToNewsIndex();
-		$menu_a[ 'Ajouter une news' ] = \App\Backend\Modules\News\NewsController::getLinkToInsertNews();
-		$menu_a[ 'Se déconnecter' ]   = ConnexionController::getLinkToLogout();
-		//si l'utilisateur est un admin
-		if ( $this->user->getAttribute( 'Member' )[ 'status' ] == 2 ) {
-			$menu_a[ 'Admin' ] = \App\Backend\Modules\News\NewsController::getLinkToAdmin();
+		if ( ( $this->user->isAuthenticated() ) ) {
+			$menu_a[ 'Ajouter une news' ] = \App\Backend\Modules\News\NewsController::getLinkToInsertNews();
+			$menu_a[ 'Se déconnecter' ]   = ConnexionController::getLinkToLogout();
+			//si l'utilisateur est un admin
+			if ( $this->user->getAttribute( 'Member' )[ 'status' ] == 2 ) {
+				$menu_a[ 'Admin' ] = \App\Backend\Modules\News\NewsController::getLinkToAdmin();
+			}
 		}
 		
 		return $menu_a;

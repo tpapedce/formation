@@ -52,8 +52,6 @@ class NewsManagerPDO extends NewsManager {
 			$news->setDateAjout( new \DateTime( $news->dateAjout() ) );
 			$news->setDateModif( new \DateTime( $news->dateModif() ) );
 			
-			$this->resultRequest_a[ 'News_getUnique_' . $id ] = $news;
-			
 			return $news;
 		}
 		
@@ -99,8 +97,6 @@ class NewsManagerPDO extends NewsManager {
 		$q->execute();
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );
-		
-		$this->resultRequest_a[ 'News_getMemberUsingId_' . $id ] = $q->fetch();;
 		
 		return $q->fetch();
 	}

@@ -58,11 +58,9 @@ class CommentsManagerPDO extends CommentsManager {
 		if ( $comment = $requete->fetch() ) {
 			$comment->setDate( new \DateTime( $comment->date() ) );
 			
-			$this->$resultRequest_a['Comments_getUnique_'.$id] = $comment;
 			return $comment;
 		}
 		
-		$this->$resultRequest_a['Comments_getUnique_'.$id] = null;
 		return null;
 	}
 	
@@ -78,7 +76,6 @@ class CommentsManagerPDO extends CommentsManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Comment' );
 		
-		$this->resultRequest_a['Comments_get_'.$id] = $q->fetch();
 		return $q->fetch();
 	}
 	
@@ -101,7 +98,6 @@ class CommentsManagerPDO extends CommentsManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\News' );
 		
-		$this->resultRequest_a['Comments_getNewsUsingId_'.$id] = $q->fetch();
 		return $q->fetch();
 	}
 	
@@ -112,7 +108,6 @@ class CommentsManagerPDO extends CommentsManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );
 		
-		$this->resultRequest_a['Comments_getMemberOfCommentUsingCommentId_'.$id] = $q->fetch();
 		return $q->fetch();
 	}
 	
@@ -123,7 +118,6 @@ class CommentsManagerPDO extends CommentsManager {
 		
 		$q->setFetchMode( \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Member' );
 		
-		$this->resultRequest_a['Comments_getMemberOfCommentUsingCommentFk_MMC_'.$id] = $q->fetch();
 		return $q->fetch();
 	}
 	
